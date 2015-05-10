@@ -1,3 +1,12 @@
+
+/*
+ * Copyright (c)
+ *
+ *  Sree  Harsha Mamilla
+ *  Pasyanthi
+ *  github/mavharsha
+ */
+
 package sk.maverick.harsha.mydatatacker;
 
 import android.content.Context;
@@ -22,10 +31,6 @@ public class homeScreen extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
-        SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString("battery_status", "low");
-        editor.commit();
 
 
         Button details = (Button) findViewById(R.id.homescreen_details_btn);
@@ -66,7 +71,6 @@ public class homeScreen extends ActionBarActivity {
             startActivity(new Intent(homeScreen.this, manageConnection.class));
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

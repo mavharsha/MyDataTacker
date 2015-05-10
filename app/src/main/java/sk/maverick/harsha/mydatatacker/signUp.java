@@ -1,5 +1,16 @@
+/*
+ * Copyright (c)
+ *  Sree  Harsha Mamilla
+ *  Pasyanthi
+ *  github/mavharsha
+ *
+ */
+
 package sk.maverick.harsha.mydatatacker;
 
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -213,6 +224,24 @@ public class signUp extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Long aLong) {
+
+
+            AlertDialog.Builder builder;
+
+            builder = new AlertDialog.Builder(signUp.this);
+            builder.setCancelable(true)
+                    .setTitle("Dialog!")
+                    .setMessage("Registered!")
+                    .setPositiveButton("Go back to Sign In!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(signUp.this, login.class));
+                            onDestroy();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
 
 
