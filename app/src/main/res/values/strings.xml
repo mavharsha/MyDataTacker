@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My DataTacker</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_billing_cycle">BillingCycle</string>
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_home_screen">homeScreen</string>
+    <string name="title_activity_manage_connection">manageConnection</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_manage_devices">manageDevices</string>
+    <string name="app_background">#BE90D4</string>
+    <string name="title_activity_add_devices">addDevices</string>
+    <string name="manage_network">Manage Network</string>
+</resources>

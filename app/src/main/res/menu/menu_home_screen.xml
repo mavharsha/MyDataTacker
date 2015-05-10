@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="sk.maverick.harsha.mydatatacker.homeScreen">
+
+
+    <item android:id="@+id/home_settings" android:title="Plan Settings"
+        app:showAsAction="collapseActionView"/>
+    <item android:id="@+id/manage_network" android:title="@string/manage_network"
+        app:showAsAction="never"/>
+
+
+</menu>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="sk.maverick.harsha.mydatatacker" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".login"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--  Activities -->
+        <activity
+            android:name=".billingCycle"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".signUp"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".homeScreen"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".manageConnection"
+            android:label="@string/title_activity_manage_connection" >
+        </activity>
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name=".manageDevices"
+            android:label="@string/title_activity_manage_devices" >
+        </activity>
+        <activity
+            android:name=".addDevices"
+            android:label="@string/title_activity_add_devices" >
+        </activity>
+
+        <!-- Broadcast Receiver -->
+        <receiver android:name=".myReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".lowBatteryReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_LOW" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".pollReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+
+        <!-- Service declaration -->
+        <service android:name=".myService" />
+        <service android:name=".pollService" />
+
+    </application>
+
+</manifest>
