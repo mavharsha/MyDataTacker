@@ -88,9 +88,7 @@ public class manageDevices extends ListActivity {
                         .setPositiveButton("Edit Quota!", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
                                 editQuota();
-
                                 Log.v("Edit Quota", "Edit quota screen");
                                 // startActivity(new Intent(manageDevices.this, .class));
                             }

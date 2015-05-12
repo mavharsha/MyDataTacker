@@ -1,3 +1,11 @@
+/*
+ * Copyright (c)
+ *
+ *  Sree  Harsha Mamilla
+ *  Pasyanthi
+ *  github/mavharsha
+ */
+
 package sk.maverick.harsha.mydatatacker;
 
 import android.content.BroadcastReceiver;

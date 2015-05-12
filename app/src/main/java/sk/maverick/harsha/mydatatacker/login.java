@@ -52,14 +52,24 @@ public class login extends ActionBarActivity {
                  username = user.getText().toString();
                  pass = password.getText().toString();
 
-               if(username.length() > 0 && pass.length() > 0 )
+
+               if( regexValidator.validatePhoneNumber(username)==false)
+               {
+                   Toast.makeText(getApplicationContext(), "Please check the Phone number entered", Toast.LENGTH_SHORT).show();
+
+               }
+
+                if( regexValidator.validatePassword(pass)==false)
+                {
+                    Toast.makeText(getApplicationContext(), "Please check the Phone number entered", Toast.LENGTH_SHORT).show();
+
+                }
+
+               if(regexValidator.validatePhoneNumber(username)==true & regexValidator.validatePassword(pass)==true )
                 {
                     new loginAsync().execute();
                 }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Please check your credentials", Toast.LENGTH_SHORT).show();
-                }
+
             }
         });
 

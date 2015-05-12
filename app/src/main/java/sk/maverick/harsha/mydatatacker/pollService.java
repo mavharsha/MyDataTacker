@@ -1,8 +1,22 @@
+/*
+ * Copyright (c)
+ *
+ *  Sree  Harsha Mamilla
+ *  Pasyanthi
+ *  github/mavharsha
+ */
+
 package sk.maverick.harsha.mydatatacker;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -20,6 +34,10 @@ public class pollService extends Service {
 
     Runnable r;
     Timer timer;
+    TelephonyManager telephonyManager;
+    NotificationManager notificationManager;
+    int Unique = 8798;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -30,23 +48,10 @@ public class pollService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
-
-
-
         r = new Runnable() {
             public void run() {
 
                 Log.v("Boot Service"," Inside Boot Service!! Yay!! ");
-
-
-                //Url
-                    //HttpUrlConnection
-                    //HttpUrlConnection.setRequestProperty
-                    //HttpUrlConnection.setRequestMethod
-                    //HttpUrlConnection.connect
-                    //If the response is 200, then successful
-                    //Else then could not post the data
 
                     URL url = null;
                     try {
@@ -58,15 +63,18 @@ public class pollService extends Service {
 
                     HttpURLConnection http = null;
                     try {
-                        http = (HttpURLConnection) url.openConnection();
-                        http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                        if (url != null) {
+                            http = (HttpURLConnection) url.openConnection();
+                            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                            http.setDoOutput(true);
+                            http.connect();
 
-                    /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
-                        http.setDoOutput(true);
-                        http.connect();
+                    /* While using HTTP url connection use setOutput(true) for "POST" verb,
+                    for other verbs use setRequestMethod(Verb)*/
 
                     /* JSON Object("Day", int) */
                         JSONObject data = new JSONObject();
+
 
                         OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
                         output_writer.write(data.toString());
@@ -74,22 +82,24 @@ public class pollService extends Service {
 
 
                     /* Response */
-                        if (http == null) {
-                            Log.v("Async", "http is null");
+                        if (http.getResponseCode() == 200) {
 
-                        } else {
                             // InputStream in = new BufferedInputStream(http.getInputStream());
                             Log.v("Async", "http connect works " + http.getResponseMessage());
-                        }
 
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }catch (IOException e){
-                        e.printStackTrace();
+                        } else {
+                            Log.v("Async", "http failed " + http.getResponseMessage());
+
+                        }
                     }
-                    finally {
+
+                    } catch (NullPointerException | IOException e) {
+                        e.printStackTrace();
+                    } finally {
                 /* Closing the HTTP URL CONNECTION */
-                        http.disconnect();
+                        if (http != null) {
+                            http.disconnect();
+                        }
                     }
 
                 }
@@ -100,10 +110,36 @@ public class pollService extends Service {
             @Override
             public void run() {
                 r.run();
+                checkForNotification();
+
             }
-        }, 0, 1500000);
+        }, 0, 1000 * 60 * 1 );
 
         return START_STICKY;
 
         }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void checkForNotification() {
+
+        notificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(Unique);
+
+
+        Intent intent = new Intent(this, homeScreen.class );
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        Notification notificationBuiler  = new Notification.Builder(this)
+                .setContentTitle("MyDataTracker Alert!")
+                .setContentText("Overusage!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .build();
+
+        notificationManager.notify(Unique,notificationBuiler);
+
+
+    }
 }

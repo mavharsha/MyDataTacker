@@ -16,7 +16,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,41 +64,46 @@ public class signUp extends ActionBarActivity {
                 datalimit_st = datalimit.getText().toString();
 
 
-                if(regexValidator.validateName(firstname_st) == false)
+                if(!regexValidator.validateName(firstname_st))
                 {
                     Toast.makeText(getApplicationContext(), "Wrong "+ firstname.getHint().toString() , Toast.LENGTH_SHORT).show();
                     Log.v("Sign Up","Wrong" + firstname.getHint().toString() );
                 }
 
-                if(regexValidator.validateName(lastname_st) == false)
+                if(!regexValidator.validateName(lastname_st))
                 {
                     Toast.makeText(getApplicationContext(), "Wrong "+ lastname.getHint().toString() , Toast.LENGTH_SHORT).show();
                     Log.v("Sign Up","Wrong" + lastname.getHint().toString() );
                 }
 
-                if(regexValidator.validateEmail(email_st) == false)
+                if(!regexValidator.validateEmail(email_st))
                 {
                     Toast.makeText(getApplicationContext(), "Wrong "+ email.getHint().toString() , Toast.LENGTH_SHORT).show();
                     Log.v("Sign Up","Wrong" + email.getHint().toString() );
                 }
 
 
-                if(regexValidator.validatePhoneNumber(phonenumber_st) == false)
+                if(!regexValidator.validatePhoneNumber(phonenumber_st))
                 {
                     Toast.makeText(getApplicationContext(), "Wrong "+ phonenumber.getHint().toString() , Toast.LENGTH_SHORT).show();
                     Log.v("Sign Up","Wrong" + phonenumber.getHint().toString() );
                 }
 
 
-                if(regexValidator.validateEmail(email_st) == false)
+                if(!regexValidator.validateEmail(email_st))
                 {
                     Toast.makeText(getApplicationContext(), "Wrong "+ email.getHint().toString() , Toast.LENGTH_SHORT).show();
                     Log.v("Sign Up","Wrong" + email.getHint().toString() );
                 }
 
+                if(!regexValidator.validatePassword(password_st))
+                {
+                    Toast.makeText(getApplicationContext(), "Wrong "+ password.getHint().toString() , Toast.LENGTH_SHORT).show();
+                    Log.v("Sign Up","Wrong" + password.getHint().toString() );
+                }
 
-                //regexValidator.validateEmail(email_st);
-               // regexValidator.validateName(lastname_st);
+
+
                 Log.v("SignUp", firstname_st
                         + " " + lastname_st
                         + " " + phonenumber_st
@@ -108,33 +112,48 @@ public class signUp extends ActionBarActivity {
                         " " + datacyle_st +
                         " " + datalimit_st);
 
-                new AsyncSignUp().execute();
+
+                if(regexValidator.validateName(firstname_st)&
+                        regexValidator.validateName(lastname_st) &
+                        regexValidator.validateEmail(email_st)  &
+                        regexValidator.validatePhoneNumber(phonenumber_st) &
+                        regexValidator.validateEmail(email_st)  &
+                        regexValidator.validatePassword(password_st)){
+
+                    new AsyncSignUp().execute();
+                }
+
+
 
 
             }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 
     public void onClick(View v) {
 
-        Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.START | Gravity.LEFT, 0, 0);
+
 
         if (v.getId() == R.id.firstname_edit_signup) {
-            toast.makeText(getApplicationContext(), "FirstName", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "FirstName", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.lastname_edit_signup) {
-            toast.makeText(getApplicationContext(), "LastName", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "LastName", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.email_edit_signup) {
-            toast.makeText(getApplicationContext(), "Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Email", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.phonenumber_edit_signup) {
-            toast.makeText(getApplicationContext(), "PhoneNumber", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "PhoneNumber", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.password_edit_signup) {
-            toast.makeText(getApplicationContext(), "Password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Password", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.startdate_edit_signup) {
-            toast.makeText(getApplicationContext(), "Start Day of Billing ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Start Day of Billing ", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.datalimit_edit_signup) {
-            toast.makeText(getApplicationContext(), "Data limit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Data limit", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -230,8 +249,8 @@ public class signUp extends ActionBarActivity {
 
             builder = new AlertDialog.Builder(signUp.this);
             builder.setCancelable(true)
-                    .setTitle("Dialog!")
-                    .setMessage("Registered!")
+                    .setTitle("Congrats!")
+                    .setMessage("You have been Registered!")
                     .setPositiveButton("Go back to Sign In!", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -242,10 +261,6 @@ public class signUp extends ActionBarActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
-
-
-
-
         }
     }
 }

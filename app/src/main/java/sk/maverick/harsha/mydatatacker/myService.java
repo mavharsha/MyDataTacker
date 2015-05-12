@@ -53,14 +53,6 @@ public class myService extends Service {
                     Log.d("message", "Hello! "+ i++ +" " + temp);
 
 
-                    //Url
-                    //HttpUrlConnection
-                    //HttpUrlConnection.setRequestProperty
-                    //HttpUrlConnection.setRequestMethod
-                    //HttpUrlConnection.connect
-                    //If the response is 200, then successful
-                    //Else then could not post the data
-
                     URL url = null;
                     try {
                         url = new URL("http://www.google.com");
@@ -74,7 +66,9 @@ public class myService extends Service {
                         http = (HttpURLConnection) url.openConnection();
                         http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-                    /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
+                    /* While using HTTP url connection use setOutput(true)
+                     for "POST" verb,
+                     for other verbs use setRequestMethod(Verb)*/
                         http.setDoOutput(true);
                         http.connect();
 
