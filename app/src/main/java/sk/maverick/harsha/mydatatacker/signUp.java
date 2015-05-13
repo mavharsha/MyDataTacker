@@ -31,8 +31,8 @@ import java.net.URL;
 
 public class signUp extends ActionBarActivity {
 
-    EditText firstname, lastname, phonenumber, email, password, datalimit, datacyle;
-    String firstname_st, lastname_st, phonenumber_st, email_st, password_st, datalimit_st, datacyle_st;
+    EditText firstname, lastname, phonenumber, email, password, owner_limit,family_limit ,datacyle;
+    String firstname_st, lastname_st, phonenumber_st, email_st, password_st, owner_limit_st, family_limit_st,datacyle_st;
     Button register;
 
     @Override
@@ -47,7 +47,9 @@ public class signUp extends ActionBarActivity {
         email = (EditText) findViewById(R.id.email_edit_signup);
         password = (EditText) findViewById(R.id.password_edit_signup);
         datacyle = (EditText) findViewById(R.id.startdate_edit_signup);
-        datalimit = (EditText) findViewById(R.id.datalimit_edit_signup);
+        owner_limit = (EditText) findViewById(R.id.ownerlimit_edit_signup);
+        family_limit = (EditText) findViewById(R.id.familylimit_edit_signup);
+
         register = (Button) findViewById(R.id.register_button_signup);
 
 
@@ -61,7 +63,8 @@ public class signUp extends ActionBarActivity {
                 email_st = email.getText().toString();
                 password_st = password.getText().toString();
                 datacyle_st = datacyle.getText().toString();
-                datalimit_st = datalimit.getText().toString();
+                owner_limit_st = owner_limit.getText().toString();
+                family_limit_st = family_limit.getText().toString();
 
 
                 if(!regexValidator.validateName(firstname_st))
@@ -110,7 +113,7 @@ public class signUp extends ActionBarActivity {
                         + " " + email_st +
                         " " + password_st +
                         " " + datacyle_st +
-                        " " + datalimit_st);
+                        " " + owner_limit_st);
 
 
                 if(regexValidator.validateName(firstname_st)&
@@ -122,10 +125,6 @@ public class signUp extends ActionBarActivity {
 
                     new AsyncSignUp().execute();
                 }
-
-
-
-
             }
         });
     }
@@ -137,7 +136,6 @@ public class signUp extends ActionBarActivity {
     }
 
     public void onClick(View v) {
-
 
 
         if (v.getId() == R.id.firstname_edit_signup) {
@@ -152,7 +150,7 @@ public class signUp extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Password", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.startdate_edit_signup) {
             Toast.makeText(getApplicationContext(), "Start Day of Billing ", Toast.LENGTH_SHORT).show();
-        } else if (v.getId() == R.id.datalimit_edit_signup) {
+        } else if (v.getId() == R.id.ownerlimit_edit_signup) {
             Toast.makeText(getApplicationContext(), "Data limit", Toast.LENGTH_SHORT).show();
         }
 
@@ -214,7 +212,7 @@ public class signUp extends ActionBarActivity {
                 data.put("Email", email_st);
                 data.put("Password", password_st);
                 data.put("StartDate", datacyle_st);
-                data.put("DataLimit",datalimit_st);
+                data.put("owner_limit",owner_limit_st);
 
                 OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
                 output_writer.write(data.toString());
@@ -243,6 +241,16 @@ public class signUp extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Long aLong) {
+
+
+            /* If the respone is success, the create a shared preference to store family limit */
+
+
+
+
+
+
+
 
 
             AlertDialog.Builder builder;

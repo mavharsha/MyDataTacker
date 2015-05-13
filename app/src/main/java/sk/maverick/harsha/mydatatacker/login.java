@@ -76,8 +76,6 @@ public class login extends ActionBarActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 startActivity(new Intent(sk.maverick.harsha.mydatatacker.login.this, signUp.class));
                // Log.v("Login","SignUP login");
             }
