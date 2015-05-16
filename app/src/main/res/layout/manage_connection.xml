@@ -10,8 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="150dp"
         android:gravity="center">
 
     <TextView
@@ -29,8 +28,39 @@
         android:textSize="20dp"
         />
 
-</LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+    <TextView
+            android:text="Advice: To extend Battery Life"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            />
+
+        <TextView
+            android:text="1) Switch off wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:text="2) Switch to lower network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            />
+
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -41,7 +71,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Click to Change Connection!"
+        android:text="Click to Manage Connection!"
         android:id="@+id/manageconnection_settingsintent_btn"
         android:background="@drawable/round_button_try"
         android:layout_marginTop="20dp"

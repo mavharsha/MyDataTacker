@@ -64,15 +64,13 @@ public class billingCycle extends ActionBarActivity {
                 .setPositiveButton("Cool!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        finish();
                         startActivity(new Intent(billingCycle.this, Settings.class));
                     }
                 });
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
-
     }
 
 
@@ -100,6 +98,7 @@ public class billingCycle extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
+        finish();
         super.onDestroy();
     }
 

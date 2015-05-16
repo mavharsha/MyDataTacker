@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,11 +40,10 @@ public class signUp extends ActionBarActivity {
     Button register;
     public static final String PREFS_NAME = "myprefs";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.register);
 
         /* Initializing the Views */
         firstname = (EditText) findViewById(R.id.firstname_edit_signup);
@@ -56,9 +54,7 @@ public class signUp extends ActionBarActivity {
         datacyle = (EditText) findViewById(R.id.startdate_edit_signup);
         owner_limit = (EditText) findViewById(R.id.ownerlimit_edit_signup);
         family_limit = (EditText) findViewById(R.id.familylimit_edit_signup);
-
         register = (Button) findViewById(R.id.register_button_signup);
-
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +68,6 @@ public class signUp extends ActionBarActivity {
                 datacyle_st = datacyle.getText().toString();
                 owner_limit_st = owner_limit.getText().toString();
                 family_limit_st = family_limit.getText().toString();
-
-
 
                 if(!regexValidator.validateName(firstname_st))
                 {
@@ -143,7 +137,7 @@ public class signUp extends ActionBarActivity {
                         regexValidator.validateNumber(family_limit_st)&
                         regexValidator.validateNumber(owner_limit_st)){
 
-                         new AsyncSignUp().execute();
+                    new AsyncSignUp().execute();
                 }
             }
         });
@@ -156,7 +150,6 @@ public class signUp extends ActionBarActivity {
     }
 
     public void onClick(View v) {
-
 
         if (v.getId() == R.id.firstname_edit_signup) {
             Toast.makeText(getApplicationContext(), "FirstName", Toast.LENGTH_SHORT).show();
@@ -240,23 +233,23 @@ public class signUp extends ActionBarActivity {
 
 
                 /* Response */
-               if(http.getResponseCode()==200){
+                if(http.getResponseCode()== 200){
                     // Read resopnse
                     // InputStream in = new BufferedInputStream(http.getInputStream());
                     Log.v("Sign Up! Async", "http connect works " + http.getResponseMessage());
 
-                   InputStream in = http.getInputStream();
-                   StringBuffer buffer = new StringBuffer();
-                   BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    InputStream in = http.getInputStream();
+                    StringBuffer buffer = new StringBuffer();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-                   while ((line = reader.readLine()) != null) {
-                       // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                       // But it does make debugging a *lot* easier if you print out the completed
-                       // buffer for debugging.
-                       buffer.append(line + "\n");
-                   }
+                    while ((line = reader.readLine()) != null) {
+                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                        // But it does make debugging a *lot* easier if you print out the completed
+                        // buffer for debugging.
+                        buffer.append(line + "\n");
+                    }
 
-                   line = buffer.toString();
+                    line = buffer.toString();
 
                 }
 
@@ -272,7 +265,6 @@ public class signUp extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Long aLong) {
-
 
             /* If the respone is success, the create a shared preference to store family limit */
 

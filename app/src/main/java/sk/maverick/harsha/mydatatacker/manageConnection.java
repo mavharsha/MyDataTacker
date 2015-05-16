@@ -45,7 +45,7 @@ public class manageConnection extends ActionBarActivity {
 
         SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-       String temp = sharedpreferences.getString("battery_status", "couldnt find");
+        String temp = sharedpreferences.getString("battery_status", "couldnt find");
 
             if (temp.equalsIgnoreCase("low")) {
                 AlertDialog.Builder builder;
@@ -71,16 +71,6 @@ public class manageConnection extends ActionBarActivity {
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        NetworkInfo all_available[] = cm.getAllNetworkInfo();
-        Network all_networks[] = cm.getAllNetworks();
-
-        Log.v("Manage Connections ","all networks length " + all_networks.length);
-
-
-        for (int i =0; i < all_available.length; i++)
-
-         Log.v("Manage Connections", "Available connections " + all_available[i].getTypeName() + " available "+ all_available[i].isAvailable()+" Connected or connecting " +all_available[i].isConnectedOrConnecting());
-            //Log.v("Manage Connections ","all networks " + all_networks[i].getByName());
 
         TextView connection_type = (TextView) findViewById(R.id.manageconnection_tv_type);
 
@@ -99,11 +89,6 @@ public class manageConnection extends ActionBarActivity {
                 startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
             }
         });
-
-
-
-
-
 
 
     }

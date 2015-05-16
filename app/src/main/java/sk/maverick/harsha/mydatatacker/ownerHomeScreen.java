@@ -30,13 +30,33 @@ public class ownerHomeScreen extends ActionBarActivity {
 
 
 
-        Button details = (Button) findViewById(R.id.homescreen_details_btn);
+        Button graph = (Button) findViewById(R.id.homescreen_details_btn);
+        Button familysetting = (Button) findViewById(R.id.home_settings);
+        Button manageconn = (Button) findViewById(R.id.manage_network);
 
-        details.setOnClickListener(new View.OnClickListener() {
+        graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Graphs come here!",Toast.LENGTH_SHORT).show();
                // startActivity(new Intent(homeScreen.this, manageConnection.class));
+            }
+        });
+
+        familysetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ownerHomeScreen.this, Settings.class));
+
+            }
+        });
+
+
+        graph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(ownerHomeScreen.this, manageConnection.class));
+                // startActivity(new Intent(homeScreen.this, manageConnection.class));
             }
         });
 
@@ -60,12 +80,10 @@ public class ownerHomeScreen extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.home_settings) {
-            startActivity(new Intent(ownerHomeScreen.this, Settings.class));
             return true;
 
         }else if(id == R.id.manage_network)
         {
-            startActivity(new Intent(ownerHomeScreen.this, manageConnection.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

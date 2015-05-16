@@ -15,11 +15,7 @@
         <activity
             android:name=".login"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!-- Activities -->
@@ -46,6 +42,12 @@
         <activity
             android:name=".manageDevices"
             android:label="@string/title_activity_manage_devices" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".addDevices"
@@ -79,6 +81,10 @@
         <activity
             android:name=".userHomeScreen"
             android:label="@string/title_activity_user_home_screen" >
+        </activity>
+        <activity
+            android:name=".EditUser"
+            android:label="@string/title_activity_edit_user" >
         </activity>
     </application>
 

@@ -1,3 +1,11 @@
+/*
+ * Copyright (c)
+ *
+ *  Sree  Harsha Mamilla
+ *  Pasyanthi
+ *  github/mavharsha
+ */
+
 package sk.maverick.harsha.mydatatacker;
 
 import android.content.Intent;
@@ -5,44 +13,25 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 
-public class Settings extends ActionBarActivity {
+public class EditUser extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
+        setContentView(R.layout.edit_user);
 
-        Button billing = (Button) findViewById(R.id.settings_billing_btn);
-        Button managedevice = (Button) findViewById(R.id.settings_mangedevice_btn);
+        Intent it = getIntent();
 
-
-        billing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Settings.this, billingCycle.class));
-            }
-        });
-
-
-        managedevice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Settings.this, manageDevices.class));
-            }
-        });
-
-
-
+        String firstname= it.getStringExtra("");
+        String phonenum = it.getStringExtra("");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_user, menu);
         return true;
     }
 

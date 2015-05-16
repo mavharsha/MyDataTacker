@@ -13,13 +13,13 @@
         android:gravity="center"
         android:layout_marginTop="50dp">
 
-<TextView
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    android:text="Fill in details!"
-    android:textSize="20dp"
-    android:fontFamily="Arial"
-    />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Edit Quota"
+            android:textSize="20dp"
+            android:fontFamily="Arial"
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -33,37 +33,21 @@
         <EditText
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:id="@+id/firstname_edit_adddevice"
+            android:id="@+id/firstname_edituser_quota"
             android:hint="First Name"
             />
 
         <EditText
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:id="@+id/lastname_edit_adddevice"
-            android:hint="Last Name"
-            android:layout_marginTop="10dp"
-            />
-
-        <EditText
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/email_edit_adddevice"
-            android:hint="E mail"
-            android:layout_marginTop="10dp"
-            />
-
-        <EditText
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/phonenumber_edit_adddevice"
+            android:id="@+id/phonenumber_useredit_edtxt"
             android:hint="Phone Number"
             android:layout_marginTop="10dp"
             />
 
 
 
-</LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -75,17 +59,18 @@
             android:layout_width="260dp"
             android:layout_height="match_parent"
             android:text="Register User!"
-            android:id="@+id/setquota_adddevice_seek"
+            android:id="@+id/setquota_edituser_seek"
             android:background="@drawable/round_button_try"
             android:layout_marginTop="20dp"
             android:padding="10dp"
             android:paddingBottom="20dp"
-            />
+            android:indeterminate="false" />
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Remaining!" />
+            android:text="Remaining!"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/remaining_adddevice_text"
@@ -105,8 +90,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Register User!"
-            android:id="@+id/register_btn_adddevice"
+            android:text="Update!"
+            android:id="@+id/register_edituser_btn"
             android:background="@drawable/round_button_try"
             android:layout_marginTop="20dp"
             android:padding="10dp"

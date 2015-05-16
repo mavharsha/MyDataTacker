@@ -9,10 +9,10 @@
 package sk.maverick.harsha.mydatatacker;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,18 +23,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SeekBar;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class manageDevices extends ListActivity {
 
     ListView listView;
-    private ArrayList<String> songs = new ArrayList<String>();
+    final String TAG = "harsha.mydatatacker.manageDevices";
+    String line;
+    protected ArrayList<String> songs = new ArrayList<String>();
+    public ArrayList<HashMap<String, String>> arrayList;
+
     ArrayAdapter itemsAdapter;
     TextView remaining;
-    SeekBar seekBar;
     int temp;
 
 
@@ -44,17 +54,11 @@ public class manageDevices extends ListActivity {
         setContentView(R.layout.manage_devices);
 
         Button add = (Button) findViewById(R.id.managedevice_adddevice_btn);
-        remaining = (TextView) findViewById(R.id.seekBar_layout_remaining);
 
 
         listView = getListView();
-        songs.add("aaa");
-        songs.add("bbb");
-        songs.add("ccc");
-        songs.add("ddd");
 
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songs);
-        listView.setAdapter(itemsAdapter);
+        new manageAsync().execute();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -77,7 +81,7 @@ public class manageDevices extends ListActivity {
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 AlertDialog.Builder builder;
 
@@ -88,7 +92,7 @@ public class manageDevices extends ListActivity {
                         .setPositiveButton("Edit Quota!", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                editQuota();
+                                editQuota(position);
                                 Log.v("Edit Quota", "Edit quota screen");
                                 // startActivity(new Intent(manageDevices.this, .class));
                             }
@@ -103,57 +107,27 @@ public class manageDevices extends ListActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-
-
-                Log.v("Listview onlong press" +
-                        "", "" + songs.get(position));
+                Log.v("Listview onlong press" , "" + songs.get(position));
                 return false;
             }
         });
 
-        try {
+    }
 
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    private void editQuota(int position) {
 
-                   temp = progress;
-                    Log.v("Seekbar"," Progress " + progress);
-                    remaining.setText(progress);
+        HashMap<String, String> map = new HashMap<String, String>();
 
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
-            });
-        }catch (Exception e){
-
-        }
+        map= arrayList.get(position);
+        s
+        Intent it = new Intent(manageDevices.this, EditUser.class);
+        it.putExtra("Name",map.get("FirstName"));
+        it.putExtra("Phone", map.get("PhoneNo"));
+        it.putExtra("DataUsed",map.get("DataUsed"));
 
 
 
     }
-
-    private void editQuota() {
-
-        seekBar.setProgress(temp);
-
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.seekbar_layout);
-        dialog.setTitle("Hell yeah!");
-        dialog.show();
-
-
-    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -176,4 +150,96 @@ public class manageDevices extends ListActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private class manageAsync extends AsyncTask<URL, Integer, Long> {
+
+        @Override
+        protected Long doInBackground(URL... params) {
+
+            URL url = null;
+            try{
+
+                /* Since it is a GET request,
+                *  send user entered number(username), password (pass) and the current device phone number
+                * (current_device_number) as parameters in the URL
+                * */
+                //url = new URL (new uri().getIp() +"UsageDetails/GetFamilyUsersDetails/?phoneNo=9167194155");
+                url = new  URL("http://www.google.com");
+            }catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+
+            HttpURLConnection http = null;
+            try {
+
+                http = (HttpURLConnection) url.openConnection();
+                http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+                /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
+                http.connect();
+
+                /* Response */
+                if(http.getResponseCode() == 200){
+
+                    InputStream in = http.getInputStream();
+                    StringBuffer buffer = new StringBuffer();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                    while ((line = reader.readLine()) != null) {
+                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                        // But it does make debugging a *lot* easier if you print out the completed
+                        // buffer for debugging.
+                        buffer.append(line + "\n");
+                    }
+                    line = buffer.toString();
+
+                    Log.v("Async  response", "Response" + line);
+
+                    /* Creating a json object of the response */
+                    JSONArray jsonArray = new JSONArray(line);
+                    JSONObject jsonObject;
+
+
+                    for(int i=0; i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        map.put("FirstName",jsonObject.getString("FirstName") );
+                        map.put("PhoneNo", jsonObject.getString("PhoneNo"));
+                        map.put("DataUsed", jsonObject.getString("DataUsed"));
+
+                        arrayList.add(map);
+                        songs.add(jsonObject.getString("FirstName"));
+
+                    }
+
+
+                    //String temp = obj.getString("country");
+                    // String temp2 = obj.getString("sunrise");
+                    //Log.v("Asynnc Json", obj.getString("country") + "  " + obj.getString("sunrise"));
+                    Log.v("Login Async", "http connect works " + http.getResponseMessage());
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            Log.v("Post Execute","In post execute");
+            songs.add("aaa");
+            songs.add("bbb");
+            songs.add("ccc");
+            songs.add("ddd");
+            itemsAdapter = new ArrayAdapter<String>(manageDevices.this, android.R.layout.simple_list_item_1, songs);
+            listView.setAdapter(itemsAdapter);
+
+
+        }
+    }
+
+
 }
