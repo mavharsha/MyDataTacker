@@ -8,10 +8,11 @@
 
 package sk.maverick.harsha.mydatatacker;
 
-
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -23,6 +24,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -32,8 +37,10 @@ import java.net.URL;
 public class signUp extends ActionBarActivity {
 
     EditText firstname, lastname, phonenumber, email, password, owner_limit,family_limit ,datacyle;
-    String firstname_st, lastname_st, phonenumber_st, email_st, password_st, owner_limit_st, family_limit_st,datacyle_st;
+    String firstname_st, lastname_st, phonenumber_st, email_st, password_st, owner_limit_st, family_limit_st,datacyle_st, line;
     Button register;
+    public static final String PREFS_NAME = "myprefs";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +72,7 @@ public class signUp extends ActionBarActivity {
                 datacyle_st = datacyle.getText().toString();
                 owner_limit_st = owner_limit.getText().toString();
                 family_limit_st = family_limit.getText().toString();
+
 
 
                 if(!regexValidator.validateName(firstname_st))
@@ -105,7 +113,16 @@ public class signUp extends ActionBarActivity {
                     Log.v("Sign Up","Wrong" + password.getHint().toString() );
                 }
 
-
+                if(!regexValidator.validateNumber(family_limit_st))
+                {
+                    Toast.makeText(getApplicationContext(), "Wrong "+ family_limit.getHint().toString() , Toast.LENGTH_SHORT).show();
+                    Log.v("Sign Up","Wrong" + family_limit.getHint().toString() );
+                }
+                if(!regexValidator.validateNumber(owner_limit_st))
+                {
+                    Toast.makeText(getApplicationContext(), "Wrong "+ owner_limit.getHint().toString() , Toast.LENGTH_SHORT).show();
+                    Log.v("Sign Up", "Wrong" + owner_limit.getHint().toString());
+                }
 
                 Log.v("SignUp", firstname_st
                         + " " + lastname_st
@@ -113,17 +130,20 @@ public class signUp extends ActionBarActivity {
                         + " " + email_st +
                         " " + password_st +
                         " " + datacyle_st +
+                        " " + owner_limit_st +
+                        " " + family_limit_st +
                         " " + owner_limit_st);
-
 
                 if(regexValidator.validateName(firstname_st)&
                         regexValidator.validateName(lastname_st) &
                         regexValidator.validateEmail(email_st)  &
                         regexValidator.validatePhoneNumber(phonenumber_st) &
                         regexValidator.validateEmail(email_st)  &
-                        regexValidator.validatePassword(password_st)){
+                        regexValidator.validatePassword(password_st)&
+                        regexValidator.validateNumber(family_limit_st)&
+                        regexValidator.validateNumber(owner_limit_st)){
 
-                    new AsyncSignUp().execute();
+                         new AsyncSignUp().execute();
                 }
             }
         });
@@ -220,13 +240,24 @@ public class signUp extends ActionBarActivity {
 
 
                 /* Response */
-                if (http == null) {
-                    Log.v("Async", "http is null");
-
-                } else {
+               if(http.getResponseCode()==200){
                     // Read resopnse
                     // InputStream in = new BufferedInputStream(http.getInputStream());
                     Log.v("Sign Up! Async", "http connect works " + http.getResponseMessage());
+
+                   InputStream in = http.getInputStream();
+                   StringBuffer buffer = new StringBuffer();
+                   BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                   while ((line = reader.readLine()) != null) {
+                       // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                       // But it does make debugging a *lot* easier if you print out the completed
+                       // buffer for debugging.
+                       buffer.append(line + "\n");
+                   }
+
+                   line = buffer.toString();
+
                 }
 
             }catch (Exception e)
@@ -245,30 +276,30 @@ public class signUp extends ActionBarActivity {
 
             /* If the respone is success, the create a shared preference to store family limit */
 
+            if (line.equalsIgnoreCase("Success")) {
 
+                SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("owner_limit",family_limit_st);
+                editor.commit();
 
+                AlertDialog.Builder builder;
 
+                builder = new AlertDialog.Builder(signUp.this);
+                builder.setCancelable(true)
+                        .setTitle("Congrats!")
+                        .setMessage("You have been Registered!")
+                        .setPositiveButton("Go back to Sign In!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(signUp.this, login.class));
+                                onDestroy();
+                            }
+                        });
 
-
-
-
-
-            AlertDialog.Builder builder;
-
-            builder = new AlertDialog.Builder(signUp.this);
-            builder.setCancelable(true)
-                    .setTitle("Congrats!")
-                    .setMessage("You have been Registered!")
-                    .setPositiveButton("Go back to Sign In!", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(signUp.this, login.class));
-                            onDestroy();
-                        }
-                    });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         }
     }
 }

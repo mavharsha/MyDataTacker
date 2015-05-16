@@ -17,11 +17,12 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!--  Activities -->
+        <!-- Activities -->
         <activity
             android:name=".billingCycle"
             android:label="@string/app_name" >
@@ -31,7 +32,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".homeScreen"
+            android:name=".ownerHomeScreen"
             android:label="@string/app_name" >
         </activity>
         <activity
@@ -44,8 +45,7 @@
         </activity>
         <activity
             android:name=".manageDevices"
-            android:label="@string/title_activity_manage_devices"
-            >
+            android:label="@string/title_activity_manage_devices" >
         </activity>
         <activity
             android:name=".addDevices"
@@ -59,14 +59,12 @@
                 </action>
             </intent-filter>
         </receiver>
-
         <receiver android:name=".lowBatteryReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_LOW" >
                 </action>
             </intent-filter>
         </receiver>
-
         <receiver android:name=".pollReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" >
@@ -74,11 +72,14 @@
             </intent-filter>
         </receiver>
 
-
         <!-- Service declaration -->
         <service android:name=".myService" />
         <service android:name=".pollService" />
 
+        <activity
+            android:name=".userHomeScreen"
+            android:label="@string/title_activity_user_home_screen" >
+        </activity>
     </application>
 
 </manifest>

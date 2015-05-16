@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.TrafficStats;
 import android.os.Handler;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import org.json.JSONObject;
 import java.io.OutputStreamWriter;
@@ -20,10 +21,12 @@ import java.util.TimerTask;
 public class myService extends Service {
 
     long dataused, olddataused, temp;
+    final String TAG = ".mydatatacker.myService";
     Handler handler = new Handler();
     Runnable r;
     int i=0;
     Timer timer;
+    TelephonyManager telephonyManager;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -32,13 +35,14 @@ public class myService extends Service {
     @Override
     public void onCreate() {
         olddataused = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
-        Log.v("Service","oncreate");
+        telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(TELEPHONY_SERVICE);
+        Log.v(TAG,"Service onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.v("Service","onStartCommand");
+        Log.v(TAG,"Service onStartCommand");
 
         r = new Runnable() {
             public void run() {
@@ -50,15 +54,12 @@ public class myService extends Service {
 
                 if(temp != 0) {
 
-                    Log.d("message", "Hello! "+ i++ +" " + temp);
-
-
                     URL url = null;
                     try {
-                        url = new URL("http://www.google.com");
+                        url = new URL(new uri().getIp() + "UsageDetails/Post/");
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
-                        Log.v("MyService", "Malformed URL");
+                        Log.v(TAG, "Malformed URL");
                     }
 
                     HttpURLConnection http = null;
@@ -66,16 +67,17 @@ public class myService extends Service {
                         http = (HttpURLConnection) url.openConnection();
                         http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-                    /* While using HTTP url connection use setOutput(true)
-                     for "POST" verb,
-                     for other verbs use setRequestMethod(Verb)*/
+                    /*  While using HTTP url connection use setOutput(true)
+                        for "POST" verb,
+                        for other verbs use setRequestMethod(Verb)*/
                         http.setDoOutput(true);
                         http.connect();
 
-                    /* JSON Object("Day", int) */
+                    /* JSON Object("Key", Value) */
                         JSONObject data = new JSONObject();
 
-                        data.put("dataused", temp);
+                        data.put("PhoneNumber",telephonyManager.getLine1Number());
+                        data.put("DataUsed", temp);
 
                         OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
                         output_writer.write(data.toString());
@@ -83,18 +85,17 @@ public class myService extends Service {
 
 
                     /* Response */
-                        if (http == null) {
-                            Log.v("Async", "http is null");
-
-                        } else {
+                        if(http.getResponseCode() == 200)
+                        {
                             // InputStream in = new BufferedInputStream(http.getInputStream());
-                            Log.v("Async", "http connect works " + http.getResponseMessage());
+                            Log.v(TAG, "http connect works" + http.getResponseMessage());
                         }
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
-                /* Closing the HTTP URL CONNECTION */
+
+                    /* Closing the HTTP URL CONNECTION */
                         http.disconnect();
                     }
 

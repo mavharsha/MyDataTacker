@@ -27,8 +27,4 @@ public class lowBatteryReceiver extends BroadcastReceiver {
         it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(it);
     }
-
-
-
-
 }
