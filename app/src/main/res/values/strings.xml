@@ -12,5 +12,4 @@
     <string name="app_background">#BE90D4</string>
     <string name="title_activity_add_devices">addDevices</string>
     <string name="manage_network">Manage Network</string>
-    <string name="title_activity_user_home_screen">userHomeScreen</string>
 </resources>

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
-    tools:context="sk.maverick.harsha.mydatatacker.ownerHomeScreen"
+    tools:context="sk.maverick.harsha.mydatatacker.homeScreen"
     android:background="@mipmap/wallpaper">
 <LinearLayout
     android:layout_gravity="center"
@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
     <Button
-        android:text="Data Usage Graphs"
+        android:text="Details"
         android:id="@+id/homescreen_details_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,41 +26,6 @@
         android:background="@drawable/round_button_try"/>
         </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Button
-            android:text="Manage Connection"
-            android:id="@+id/ownerhomescreen_manageconn_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:background="@drawable/round_button_try"/>
     </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Button
-            android:text="Family Plan Settings"
-            android:id="@+id/homescreen_familysettings_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:background="@drawable/round_button_try"/>
-    </LinearLayout>
-</LinearLayout>
-
-
 
 </LinearLayout>

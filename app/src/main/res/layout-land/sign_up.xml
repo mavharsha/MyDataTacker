@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c)
+  ~
+  ~ * Sree  Harsha Mamilla
+  ~ * Pasyanthi
+  ~ * github/mavharsha
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#BE90D4">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        >
+
+        <EditText
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/firstname_edit_signup"
+            android:hint="First Name"
+            android:onClick="onClick"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lastname_edit_signup"
+            android:hint="Last Name"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email_edit_signup"
+            android:hint="E mail"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/phonenumber_edit_signup"
+            android:hint="Phone Number"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password_edit_signup"
+            android:hint="Password"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/startdate_edit_signup"
+            android:hint="Start Day of billing"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            />
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+        <EditText
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/familylimit_edit_signup"
+            android:hint="Family Limit"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            />
+
+            <EditText
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ownerlimit_edit_signup"
+                android:hint="Owner Limit"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:onClick="onClick"
+                />
+
+            </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:id="@+id/register_button_signup"
+            android:layout_gravity="right"
+            android:layout_marginTop="25dp"
+            android:clickable="true"
+            android:background="@drawable/round_button_try"
+            />
+    </LinearLayout>
+</LinearLayout>

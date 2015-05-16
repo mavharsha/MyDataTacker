@@ -126,7 +126,7 @@ public class pollService extends Service {
         notificationManager.cancel(Unique);
 
 
-        Intent intent = new Intent(this, ownerHomeScreen.class );
+        Intent intent = new Intent(this, homeScreen.class );
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Notification notificationBuiler  = new Notification.Builder(this)

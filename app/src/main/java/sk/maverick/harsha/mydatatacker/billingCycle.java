@@ -19,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 
 public class billingCycle extends ActionBarActivity {
@@ -31,6 +32,8 @@ public class billingCycle extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.billing_cycle);
+
+        Pattern pattern;
 
         /* Initialization of Views*/
         datepicker = (DatePicker) findViewById(R.id.datePicker);
@@ -73,7 +76,7 @@ public class billingCycle extends ActionBarActivity {
         dialog.show();
 
 
-    }
+  }
 
 
     @Override
@@ -139,15 +142,15 @@ public class billingCycle extends ActionBarActivity {
 
 
                     /* Response */
-                if(http == null)
-                {
-                    Log.v("Async", "http is null");
+                    if(http == null)
+                    {
+                        Log.v("Async", "http is null");
 
-                }else
-                {
-                    // InputStream in = new BufferedInputStream(http.getInputStream());
-                    Log.v("Async", "http connect works " + http.getResponseCode());
-                }
+                    }else
+                    {
+                       // InputStream in = new BufferedInputStream(http.getInputStream());
+                        Log.v("Async", "http connect works " + http.getResponseCode());
+                    }
 
             }catch (Exception e){
                 e.printStackTrace();
