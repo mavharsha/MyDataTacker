@@ -40,7 +40,7 @@ public class manageDevices extends ListActivity {
     ListView listView;
     final String TAG = "harsha.mydatatacker.manageDevices";
     String line;
-    protected ArrayList<String> songs = new ArrayList<String>();
+    protected ArrayList<String> names = new ArrayList<String>();
     public ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String,String>>();;
     ArrayAdapter itemsAdapter;
     TextView remaining;
@@ -63,12 +63,10 @@ public class manageDevices extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Log.v("Listview", "" + songs.get(position));
+                Log.v("Listview", "" + names.get(position));
 
             }
         });
-
-
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,13 +98,12 @@ public class manageDevices extends ListActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         Log.v("Deleting device", "Delete device");
-
                     }
                 });
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                Log.v("Listview onlong press" , "" + songs.get(position));
+                Log.v("Listview onlong press" , "" + names.get(position));
                 return false;
             }
         });
@@ -122,19 +119,16 @@ public class manageDevices extends ListActivity {
         Intent it = new Intent(manageDevices.this, EditUser.class);
 
 
-       it.putExtra("Name",map.get("FirstName"));
+        it.putExtra("Name",map.get("FirstName"));
         it.putExtra("Phone", map.get("PhoneNo"));
         it.putExtra("DataUsed", map.get("DataLimit"));
 
         Log.v("EditQuota", "" + map.get("FirstName") + " " + map.get("PhoneNo") + "  " + map.get("DataLimit"));
 
-       startActivity(it);
-       // it.putExtra("Name",map.get("FirstName"));
-       // it.putExtra("Phone", map.get("PhoneNo"));
-       // it.putExtra("DataUsed",map.get("DataLimit"));
-
-
-
+        startActivity(it);
+        // it.putExtra("Name",map.get("FirstName"));
+        // it.putExtra("Phone", map.get("PhoneNo"));
+        // it.putExtra("DataUsed",map.get("DataLimit"));
     }
 
     @Override
@@ -172,7 +166,7 @@ public class manageDevices extends ListActivity {
                 * (current_device_number) as parameters in the URL
                 * */
                 url = new URL (new uri().getIp() +"User/GetAllFamilyUsers/?phoneNo=9167194155");
-               // url = new  URL("http://www.google.com");
+                // url = new  URL("http://www.google.com");
             }catch (MalformedURLException e){
                 e.printStackTrace();
             }
@@ -214,13 +208,10 @@ public class manageDevices extends ListActivity {
                         jsonObject = jsonArray.getJSONObject(i);
 
                         HashMap<String, String> map = new HashMap<>();
-
-
                         map.put("FirstName",jsonObject.getString("FirstName") );
                         map.put("PhoneNo", jsonObject.getString("PhoneNo"));
                         map.put("DataLimit", jsonObject.getString("DataLimit"));
-
-                        songs.add(jsonObject.getString("FirstName"));
+                        names.add(jsonObject.getString("FirstName"));
                         arrayList.add(map);
 
                     }
@@ -239,8 +230,8 @@ public class manageDevices extends ListActivity {
 
         @Override
         protected void onPostExecute(Long aLong) {
-            Log.v("Post Execute","In post execute");
-            itemsAdapter = new ArrayAdapter<String>(manageDevices.this, android.R.layout.simple_list_item_1, songs);
+            Log.v("Post Execute", "In post execute");
+            itemsAdapter = new ArrayAdapter<String>(manageDevices.this, android.R.layout.simple_list_item_1, names);
             listView.setAdapter(itemsAdapter);
         }
     }

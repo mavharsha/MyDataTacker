@@ -43,7 +43,7 @@ public class login extends ActionBarActivity {
         signup = (TextView) findViewById(R.id.signup_tv);
 
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        current_device_number = telephonyManager.getLine1Number();//
+        current_device_number = getNumber();
         current_device_number = "123131323";
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +170,16 @@ public class login extends ActionBarActivity {
 
             }
         }
+    }
+
+
+    public String getNumber(){
+
+        TelephonyManager telephonyManager;
+        telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+
+        return telephonyManager.getLine1Number();
+
     }
 
 }

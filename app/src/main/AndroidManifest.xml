@@ -42,10 +42,7 @@
         <activity
             android:name=".manageDevices"
             android:label="@string/title_activity_manage_devices" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".addDevices"
@@ -79,6 +76,10 @@
         <activity
             android:name=".userHomeScreen"
             android:label="@string/title_activity_user_home_screen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".EditUser"
@@ -88,6 +89,10 @@
             android:name=".GraphOwner"
             android:label="@string/title_activity_graph_owner" >
         </activity>
+
+        <activity android:name="org.achartengine.GraphicalActivity"
+            android:screenOrientation="landscape"/>
+
     </application>
 
 </manifest>
