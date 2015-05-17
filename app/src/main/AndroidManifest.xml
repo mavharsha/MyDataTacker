@@ -15,7 +15,6 @@
         <activity
             android:name=".login"
             android:label="@string/app_name" >
-
         </activity>
 
         <!-- Activities -->
@@ -42,7 +41,6 @@
         <activity
             android:name=".manageDevices"
             android:label="@string/title_activity_manage_devices" >
-
         </activity>
         <activity
             android:name=".addDevices"
@@ -78,6 +76,7 @@
             android:label="@string/title_activity_user_home_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -89,10 +88,13 @@
             android:name=".GraphOwner"
             android:label="@string/title_activity_graph_owner" >
         </activity>
-
-        <activity android:name="org.achartengine.GraphicalActivity"
-            android:screenOrientation="landscape"/>
-
+        <activity
+            android:name="org.achartengine.GraphicalActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".GraphDeviceList"
+            android:label="@string/title_activity_graph_device_list" >
+        </activity>
     </application>
 
 </manifest>

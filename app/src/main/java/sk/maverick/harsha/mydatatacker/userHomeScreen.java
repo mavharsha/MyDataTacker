@@ -17,8 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import org.achartengine.model.TimeSeries;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -28,7 +26,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class userHomeScreen extends ActionBarActivity {
@@ -52,7 +49,7 @@ public class userHomeScreen extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                GraphLineUser graphLineUser = new GraphLineUser();
+                GraphLine graphLineUser = new GraphLine();
                 Intent it = graphLineUser.getIntent(getApplicationContext(),arrayList);
                 startActivity(it);
             }
@@ -116,7 +113,6 @@ public class userHomeScreen extends ActionBarActivity {
                 if(http.getResponseCode() == 200){
 
                     Log.v("Post Execute", "Response message" + http.getResponseCode());
-
                     InputStream in = http.getInputStream();
                     StringBuffer buffer = new StringBuffer();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -140,7 +136,6 @@ public class userHomeScreen extends ActionBarActivity {
                         Log.v("DataUsed", "" + jsonObject.getString("DataUsed"));
                         arrayList.add(Double.parseDouble(jsonObject.getString("DataUsed")));
                     }
-
 
                     Log.v("Login Async", "http connect works " + http.getResponseMessage());
                 }

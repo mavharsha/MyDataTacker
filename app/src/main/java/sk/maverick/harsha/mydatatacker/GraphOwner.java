@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 
@@ -25,6 +26,19 @@ public class GraphOwner extends ActionBarActivity {
         Button piegraph = (Button) findViewById(R.id.piegraph_ownergraph_btn);
         Button linegraph = (Button) findViewById(R.id.linegraph_ownergraph_btn);
 
+        piegraph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        linegraph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
