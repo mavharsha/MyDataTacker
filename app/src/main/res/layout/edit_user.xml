@@ -73,7 +73,7 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
-            android:id="@+id/remaining_adddevice_text"
+            android:id="@+id/remaining_edituser_text"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"/>
@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Update!"
-            android:id="@+id/register_edituser_btn"
+            android:id="@+id/update_edituser_btn"
             android:background="@drawable/round_button_try"
             android:layout_marginTop="20dp"
             android:padding="10dp"

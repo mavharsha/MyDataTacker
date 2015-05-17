@@ -25,7 +25,8 @@ public class login extends ActionBarActivity {
     EditText user, password;
     Button login;
     TextView signup;
-    String username, pass, line, current_device_number;
+    String username, pass, current_device_number;
+    String line="";
     TelephonyManager telephonyManager;
     final String TAG = ".harsha.mydatatacker.login";
     @Override
@@ -42,15 +43,17 @@ public class login extends ActionBarActivity {
         signup = (TextView) findViewById(R.id.signup_tv);
 
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        current_device_number = telephonyManager.getLine1Number();
+        current_device_number = telephonyManager.getLine1Number();//
+        current_device_number = "123131323";
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                username = user.getText().toString();
-                pass = password.getText().toString();
-
+             //   username = user.getText().toString();
+               username = "9167909169";
+               // pass = password.getText().toString();
+                pass = "12345";
 
                 if (!regexValidator.validatePhoneNumber(username)) {
                     Toast.makeText(getApplicationContext(), "Please check the Phone number entered", Toast.LENGTH_SHORT).show();
@@ -62,8 +65,9 @@ public class login extends ActionBarActivity {
 
                 }
 
+                new loginAsync().execute();
+
                 if (regexValidator.validatePhoneNumber(username) & regexValidator.validatePassword(pass)) {
-                    new loginAsync().execute();
                 }
 
             }
@@ -130,31 +134,16 @@ public class login extends ActionBarActivity {
                 http = (HttpURLConnection) url.openConnection();
                 http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
+                Log.v("Login Async", " inside httpurlconnection ");
+
                 /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
                 http.connect();
 
                 /* Response */
                 if(http.getResponseCode() == 200){
 
-                    InputStream in = http.getInputStream();
-                    StringBuffer buffer = new StringBuffer();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    line = "success";
 
-                    while ((line = reader.readLine()) != null) {
-                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                        // But it does make debugging a *lot* easier if you print out the completed
-                        // buffer for debugging.
-                        buffer.append(line + "\n");
-                    }
-                    line = buffer.toString();
-
-                    Log.v("Async  response", "Response" + line);
-
-                    /* Creating a json object of the response */
-                    // JSONObject obj = new JSONObject(line);
-                    //String temp = obj.getString("country");
-                    // String temp2 = obj.getString("sunrise");
-                    //Log.v("Asynnc Json", obj.getString("country") + "  " + obj.getString("sunrise"));
                     Log.v("Login Async", "http connect works " + http.getResponseMessage());
                 }
             }catch (Exception e){
@@ -165,7 +154,7 @@ public class login extends ActionBarActivity {
         }
 
 
-        @Override
+       @Override
         protected void onPostExecute(Long aLong) {
 
             /* If the response for the and the entered number and current phone number is same, owner */
@@ -175,7 +164,7 @@ public class login extends ActionBarActivity {
             {
                 startActivity(new Intent(sk.maverick.harsha.mydatatacker.login.this, ownerHomeScreen.class));
             }
-            else
+            else if(line.equalsIgnoreCase("success"))
             {
                 startActivity(new Intent(sk.maverick.harsha.mydatatacker.login.this, userHomeScreen.class));
 

@@ -1,0 +1,52 @@
+<!--
+  ~ Copyright (c)
+  ~
+  ~ * Sree  Harsha Mamilla
+  ~ * Pasyanthi
+  ~ * github/mavharsha
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sk.maverick.harsha.mydatatacker.GraphOwner"
+    android:orientation="vertical"
+    android:background="#BE90D4">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:text="pie graph "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:padding="10dp"
+            android:background="@drawable/round_button_try"
+            android:id="@+id/piegraph_ownergraph_btn" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:text="family details"
+            android:id="@+id/linegraph_ownergraph_btn"
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button_try"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

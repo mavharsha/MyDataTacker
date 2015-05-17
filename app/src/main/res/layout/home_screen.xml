@@ -18,7 +18,7 @@
 
     <Button
         android:text="Data Usage Graphs"
-        android:id="@+id/homescreen_details_btn"
+        android:id="@+id/ownerhomescreen_details_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
@@ -52,7 +52,7 @@
 
         <Button
             android:text="Family Plan Settings"
-            android:id="@+id/homescreen_familysettings_btn"
+            android:id="@+id/ownerhomescreen_familysettings_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

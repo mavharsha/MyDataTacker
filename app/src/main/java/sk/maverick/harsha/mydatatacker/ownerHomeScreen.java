@@ -30,15 +30,15 @@ public class ownerHomeScreen extends ActionBarActivity {
 
 
 
-        Button graph = (Button) findViewById(R.id.homescreen_details_btn);
-        Button familysetting = (Button) findViewById(R.id.home_settings);
-        Button manageconn = (Button) findViewById(R.id.manage_network);
+        Button graph = (Button) findViewById(R.id.ownerhomescreen_details_btn);
+        Button familysetting = (Button) findViewById(R.id.ownerhomescreen_familysettings_btn);
+        Button manageconn = (Button) findViewById(R.id.ownerhomescreen_manageconn_btn);
 
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Graphs come here!",Toast.LENGTH_SHORT).show();
-               // startActivity(new Intent(homeScreen.this, manageConnection.class));
+                startActivity(new Intent(ownerHomeScreen.this, GraphOwner.class));
             }
         });
 
@@ -51,7 +51,7 @@ public class ownerHomeScreen extends ActionBarActivity {
         });
 
 
-        graph.setOnClickListener(new View.OnClickListener() {
+        manageconn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

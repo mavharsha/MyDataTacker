@@ -41,8 +41,7 @@ public class manageDevices extends ListActivity {
     final String TAG = "harsha.mydatatacker.manageDevices";
     String line;
     protected ArrayList<String> songs = new ArrayList<String>();
-    public ArrayList<HashMap<String, String>> arrayList;
-
+    public ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String,String>>();;
     ArrayAdapter itemsAdapter;
     TextView remaining;
     int temp;
@@ -119,11 +118,20 @@ public class manageDevices extends ListActivity {
         HashMap<String, String> map = new HashMap<String, String>();
 
         map= arrayList.get(position);
-        s
+
         Intent it = new Intent(manageDevices.this, EditUser.class);
-        it.putExtra("Name",map.get("FirstName"));
+
+
+       it.putExtra("Name",map.get("FirstName"));
         it.putExtra("Phone", map.get("PhoneNo"));
-        it.putExtra("DataUsed",map.get("DataUsed"));
+        it.putExtra("DataUsed", map.get("DataLimit"));
+
+        Log.v("EditQuota", "" + map.get("FirstName") + " " + map.get("PhoneNo") + "  " + map.get("DataLimit"));
+
+       startActivity(it);
+       // it.putExtra("Name",map.get("FirstName"));
+       // it.putExtra("Phone", map.get("PhoneNo"));
+       // it.putExtra("DataUsed",map.get("DataLimit"));
 
 
 
@@ -163,8 +171,8 @@ public class manageDevices extends ListActivity {
                 *  send user entered number(username), password (pass) and the current device phone number
                 * (current_device_number) as parameters in the URL
                 * */
-                //url = new URL (new uri().getIp() +"UsageDetails/GetFamilyUsersDetails/?phoneNo=9167194155");
-                url = new  URL("http://www.google.com");
+                url = new URL (new uri().getIp() +"User/GetAllFamilyUsers/?phoneNo=9167194155");
+               // url = new  URL("http://www.google.com");
             }catch (MalformedURLException e){
                 e.printStackTrace();
             }
@@ -181,6 +189,8 @@ public class manageDevices extends ListActivity {
                 /* Response */
                 if(http.getResponseCode() == 200){
 
+                    Log.v("Post Execute","Response message" + http.getResponseCode());
+
                     InputStream in = http.getInputStream();
                     StringBuffer buffer = new StringBuffer();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -195,7 +205,7 @@ public class manageDevices extends ListActivity {
 
                     Log.v("Async  response", "Response" + line);
 
-                    /* Creating a json object of the response */
+                   /* Creating a json object of the response */
                     JSONArray jsonArray = new JSONArray(line);
                     JSONObject jsonObject;
 
@@ -203,17 +213,17 @@ public class manageDevices extends ListActivity {
                     for(int i=0; i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);
 
-                        HashMap<String, String> map = new HashMap<String, String>();
+                        HashMap<String, String> map = new HashMap<>();
+
 
                         map.put("FirstName",jsonObject.getString("FirstName") );
                         map.put("PhoneNo", jsonObject.getString("PhoneNo"));
-                        map.put("DataUsed", jsonObject.getString("DataUsed"));
+                        map.put("DataLimit", jsonObject.getString("DataLimit"));
 
-                        arrayList.add(map);
                         songs.add(jsonObject.getString("FirstName"));
+                        arrayList.add(map);
 
                     }
-
 
                     //String temp = obj.getString("country");
                     // String temp2 = obj.getString("sunrise");
@@ -230,14 +240,8 @@ public class manageDevices extends ListActivity {
         @Override
         protected void onPostExecute(Long aLong) {
             Log.v("Post Execute","In post execute");
-            songs.add("aaa");
-            songs.add("bbb");
-            songs.add("ccc");
-            songs.add("ddd");
             itemsAdapter = new ArrayAdapter<String>(manageDevices.this, android.R.layout.simple_list_item_1, songs);
             listView.setAdapter(itemsAdapter);
-
-
         }
     }
 

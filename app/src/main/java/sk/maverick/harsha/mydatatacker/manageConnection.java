@@ -65,7 +65,7 @@ public class manageConnection extends ActionBarActivity {
                 dialog.show();
 
                 editor.remove("battery_status");
-                editor.commit();
+                editor.apply();
         }
 
 

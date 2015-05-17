@@ -14,4 +14,5 @@
     <string name="manage_network">Manage Network</string>
     <string name="title_activity_user_home_screen">userHomeScreen</string>
     <string name="title_activity_edit_user">EditUser</string>
+    <string name="title_activity_graph_owner">GraphOwner</string>
 </resources>

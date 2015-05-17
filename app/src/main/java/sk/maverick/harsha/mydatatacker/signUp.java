@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -36,7 +34,8 @@ import java.net.URL;
 public class signUp extends ActionBarActivity {
 
     EditText firstname, lastname, phonenumber, email, password, owner_limit,family_limit ,datacyle;
-    String firstname_st, lastname_st, phonenumber_st, email_st, password_st, owner_limit_st, family_limit_st,datacyle_st, line;
+    String firstname_st, lastname_st, phonenumber_st, email_st, password_st, owner_limit_st, family_limit_st,datacyle_st;
+    String line = "";
     Button register;
     public static final String PREFS_NAME = "myprefs";
 
@@ -55,6 +54,11 @@ public class signUp extends ActionBarActivity {
         owner_limit = (EditText) findViewById(R.id.ownerlimit_edit_signup);
         family_limit = (EditText) findViewById(R.id.familylimit_edit_signup);
         register = (Button) findViewById(R.id.register_button_signup);
+
+        TelephonyManager  telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        String temp = telephonyManager.getLine1Number();
+
+        phonenumber.setText(temp.substring(2));
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +206,7 @@ public class signUp extends ActionBarActivity {
             URL url = null;
             try{
 
-                url = new URL (" http://192.168.1.71:7649/WebApi/api/User/Register/");
+                url = new URL (new uri().getIp()+"/User/Register/");
             }catch (MalformedURLException e){
                 e.printStackTrace();
             }
@@ -225,31 +229,19 @@ public class signUp extends ActionBarActivity {
                 data.put("Email", email_st);
                 data.put("Password", password_st);
                 data.put("StartDate", datacyle_st);
-                data.put("owner_limit",owner_limit_st);
+                data.put("DataLimit",owner_limit_st);
 
                 OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
                 output_writer.write(data.toString());
                 output_writer.flush();
 
-
+                Log.v("SignUP", "Responsecode"+http.getResponseCode());
                 /* Response */
                 if(http.getResponseCode()== 200){
                     // Read resopnse
                     // InputStream in = new BufferedInputStream(http.getInputStream());
                     Log.v("Sign Up! Async", "http connect works " + http.getResponseMessage());
-
-                    InputStream in = http.getInputStream();
-                    StringBuffer buffer = new StringBuffer();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                    while ((line = reader.readLine()) != null) {
-                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                        // But it does make debugging a *lot* easier if you print out the completed
-                        // buffer for debugging.
-                        buffer.append(line + "\n");
-                    }
-
-                    line = buffer.toString();
+                    line = http.getResponseMessage();
 
                 }
 
@@ -272,8 +264,8 @@ public class signUp extends ActionBarActivity {
 
                 SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString("owner_limit",family_limit_st);
-                editor.commit();
+                editor.putInt("family_limit", Integer.parseInt(family_limit_st));
+                editor.apply();
 
                 AlertDialog.Builder builder;
 
