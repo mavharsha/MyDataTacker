@@ -38,14 +38,14 @@ public class EditUser extends ActionBarActivity {
         Button update = (Button) findViewById(R.id.update_edituser_btn);
         final TextView remaining = (TextView) findViewById(R.id.remaining_edituser_text);
 
-        Intent it = getIntent();
+      /*  Intent it = getIntent();
 
         String firstname= it.getStringExtra("Name");
         String phonenum = it.getStringExtra("Phone");
-         String temp = it.getStringExtra("DataUsed");
+        String temp = it.getStringExtra("DataUsed");
 
         quota = Integer.parseInt(temp);
-        
+
         name.setText(firstname);
         phone.setText(phonenum);
         seekBar.setProgress(quota);
@@ -88,6 +88,7 @@ public class EditUser extends ActionBarActivity {
             }
         });
 
+        */
 
     }
 

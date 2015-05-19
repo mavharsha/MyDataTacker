@@ -37,9 +37,7 @@ public class GraphDeviceList extends ListActivity {
     String line, phone;
     public ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String,String>>();
     public ArrayList<String> names = new ArrayList<String>();
-    public ArrayList<String> dataperday = new ArrayList<String>();
-
-
+    public ArrayList<Double> dataperday = new ArrayList<Double>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +55,8 @@ public class GraphDeviceList extends ListActivity {
                 HashMap<String, String> map = new HashMap<>();
                 map = arrayList.get(position);
                 phone = map.get("PhoneNo");
-
                 new GetGraphAsync().execute();
+
             }
         });
     }
@@ -94,7 +92,7 @@ public class GraphDeviceList extends ListActivity {
             URL url = null;
             try {
 
-                url = new URL(new uri().getIp() + "User/GetAllFamilyUsers/?phoneNo=9167194155");
+                url = new URL (new uri().getIp() +"User/GetAllFamilyUsers/?phoneNo=9167194155");
                 // url = new  URL("http://www.google.com");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -155,12 +153,7 @@ public class GraphDeviceList extends ListActivity {
             listView.setAdapter(itemsAdapter);
         }
 
-
     }
-
-
-
-
 
     private class GetGraphAsync extends AsyncTask<URL, Integer, Long> {
 
@@ -170,7 +163,7 @@ public class GraphDeviceList extends ListActivity {
             URL url = null;
             try {
 
-                url = new URL(new uri().getIp() + "User/GetAllFamilyUsers/?phoneNo="+phone);
+                url = new URL("http://192.168.1.71:7649/WebApi/api/UsageDetails/GetUsageDetails/?phoneNo=9999999999&duration=Weekly");
                 // url = new  URL("http://www.google.com");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -190,26 +183,27 @@ public class GraphDeviceList extends ListActivity {
 
                     Log.v("Post Execute", "Response message" + http.getResponseCode());
 
-                    InputStream in = http.getInputStream();
+                    InputStream input = http.getInputStream();
                     StringBuffer buffer = new StringBuffer();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line + "\n");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    String line1;
+                    while ((line1 = reader.readLine()) != null) {
+                        buffer.append(line1 + "\n");
                     }
-                    line = buffer.toString();
+                    line1 = buffer.toString();
 
-                    Log.v("Async  response", "Response" + line);
+                    Log.v("Async  response", "Response line is " + line1);
 
                    /* Creating a json object of the response */
-                    JSONArray jsonArray = new JSONArray(line);
+                    JSONArray jsonArray = new JSONArray(line1);
                     JSONObject jsonObject;
 
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
 
-                        dataperday.add(jsonObject.getString("DataUsed"));
+                        Log.v("graph value", "" + Double.parseDouble(jsonObject.getString("DataUsed")));
+                        dataperday.add(Double.parseDouble(jsonObject.getString("DataUsed")));
                     }
 
                     Log.v("Login Async", "http connect works " + http.getResponseMessage());
@@ -223,33 +217,13 @@ public class GraphDeviceList extends ListActivity {
         @Override
         protected void onPostExecute(Long aLong) {
             Log.v("Post Execute", "In post execute");
-            
             GraphLine graphLineUser = new GraphLine();
-            Intent it = graphLineUser.getIntent(getApplicationContext(),arrayList);
+            Intent it = graphLineUser.getIntent(GraphDeviceList.this ,dataperday);
+            dataperday.clear();
             startActivity(it);
+
         }
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

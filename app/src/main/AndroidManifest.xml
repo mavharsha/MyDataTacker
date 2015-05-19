@@ -15,6 +15,7 @@
         <activity
             android:name=".login"
             android:label="@string/app_name" >
+
         </activity>
 
         <!-- Activities -->
@@ -29,6 +30,8 @@
         <activity
             android:name=".ownerHomeScreen"
             android:label="@string/app_name" >
+
+
         </activity>
         <activity
             android:name=".manageConnection"
@@ -74,15 +77,11 @@
         <activity
             android:name=".userHomeScreen"
             android:label="@string/title_activity_user_home_screen" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".EditUser"
             android:label="@string/title_activity_edit_user" >
+
         </activity>
         <activity
             android:name=".GraphOwner"
@@ -94,6 +93,11 @@
         <activity
             android:name=".GraphDeviceList"
             android:label="@string/title_activity_graph_device_list" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 

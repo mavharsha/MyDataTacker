@@ -3,7 +3,7 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     tools:context="sk.maverick.harsha.mydatatacker.ownerHomeScreen"
-    android:background="@mipmap/wallpaper">
+    android:background="#BE90D4">
 <LinearLayout
     android:layout_gravity="center"
     android:layout_width="wrap_content"

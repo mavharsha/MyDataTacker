@@ -24,9 +24,13 @@ import java.util.ArrayList;
  */
 public class GraphLine {
 
+    TimeSeries series = new TimeSeries("User");
+    XYMultipleSeriesDataset dataset;
+
+
     public Intent getIntent(Context context, ArrayList arrayList){
 
-        TimeSeries series = new TimeSeries("User1");
+
         String name= "";
 
         for(int i =0; i< arrayList.size() ; i++)
@@ -36,8 +40,9 @@ public class GraphLine {
             Log.v("Graph Activity",""+ arrayList.get(i));
         }
 
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset= new XYMultipleSeriesDataset();
         dataset.addSeries(series);
+
 
         XYSeriesRenderer renderer = new XYSeriesRenderer();
         renderer.setColor(Color.GREEN);
