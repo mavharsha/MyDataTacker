@@ -101,6 +101,8 @@ public class GraphDeviceList extends ListActivity {
             HttpURLConnection http = null;
             try {
 
+
+                if(url!=null){
                 http = (HttpURLConnection) url.openConnection();
                 http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
@@ -139,6 +141,7 @@ public class GraphDeviceList extends ListActivity {
                     }
 
                     Log.v("Login Async", "http connect works " + http.getResponseMessage());
+                }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -218,7 +221,7 @@ public class GraphDeviceList extends ListActivity {
         protected void onPostExecute(Long aLong) {
             Log.v("Post Execute", "In post execute");
             GraphLine graphLineUser = new GraphLine();
-            Intent it = graphLineUser.getIntent(GraphDeviceList.this ,dataperday);
+            Intent it = graphLineUser.getIntent(GraphDeviceList.this, dataperday);
             dataperday.clear();
             startActivity(it);
 

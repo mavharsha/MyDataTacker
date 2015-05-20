@@ -86,17 +86,20 @@
         <activity
             android:name=".GraphOwner"
             android:label="@string/title_activity_graph_owner" >
-        </activity>
-        <activity
-            android:name="org.achartengine.GraphicalActivity"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".GraphDeviceList"
-            android:label="@string/title_activity_graph_device_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name="org.achartengine.GraphicalActivity"
+            android:screenOrientation="landscape" >
+            </activity>
+
+        <activity
+            android:name=".GraphDeviceList"
+            android:label="@string/title_activity_graph_device_list" >
 
         </activity>
     </application>
