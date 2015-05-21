@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/startdate_edit_signup"
-            android:hint="Start Day of billing"
+            android:hint="Billing Cycle (MM/DD/YYYY)"
             android:layout_marginTop="10dp"
             android:onClick="onClick"
             />

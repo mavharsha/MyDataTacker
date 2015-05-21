@@ -12,6 +12,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,11 +39,15 @@ public class GraphDeviceList extends ListActivity {
     public ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String,String>>();
     public ArrayList<String> names = new ArrayList<String>();
     public ArrayList<Double> dataperday = new ArrayList<Double>();
+    TelephonyManager telephonyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_device_list);
+
+        telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        phone =  telephonyManager.getLine1Number().substring(1);
 
         listView = getListView();
         new manageAsync().execute();
@@ -92,7 +97,7 @@ public class GraphDeviceList extends ListActivity {
             URL url = null;
             try {
 
-                url = new URL (new uri().getIp() +"User/GetAllFamilyUsers/?phoneNo=9167194155");
+                url = new URL (new uri().getIp() +"User/GetAllFamilyUsers/?phoneNo="+phone);
                 // url = new  URL("http://www.google.com");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -108,6 +113,8 @@ public class GraphDeviceList extends ListActivity {
 
                 /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
                 http.connect();
+
+                    Log.v("URL",""+url);
 
                 /* Response */
                 if (http.getResponseCode() == 200) {
@@ -166,7 +173,7 @@ public class GraphDeviceList extends ListActivity {
             URL url = null;
             try {
 
-                url = new URL("http://192.168.1.71:7649/WebApi/api/UsageDetails/GetUsageDetails/?phoneNo=9999999999&duration=Weekly");
+                url = new URL("http://192.168.1.71:7649/WebApi/api/UsageDetails/GetUsageDetails/?phoneNo="+phone+"&duration=Weekly");
                 // url = new  URL("http://www.google.com");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -180,6 +187,8 @@ public class GraphDeviceList extends ListActivity {
 
                 /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
                 http.connect();
+
+                Log.v("URL", "" + url);
 
                 /* Response */
                 if (http.getResponseCode() == 200) {

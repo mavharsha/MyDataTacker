@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,24 +35,31 @@ public class userHomeScreen extends ActionBarActivity {
     String line = "";
     public ArrayList<Double> arrayList = new ArrayList<>();
     public ArrayList<ArrayList<Integer>> newarraylist = new ArrayList<ArrayList<Integer>>();
+    TelephonyManager telephonyManager;
+    String phone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_home_screen);
 
-        new RetrieveUserGraph().execute();
 
         graph  = (Button) findViewById(R.id.user_homescreen_graphdetails_btn);
         manageconnections = (Button) findViewById(R.id.user_homescreen_manageconn_btn);
+        telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        phone = telephonyManager.getLine1Number();
+
+        if(phone.length()>10)
+        {
+            phone = telephonyManager.getLine1Number().substring(1);
+        }
 
 
         graph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                GraphLine graphLineUser = new GraphLine();
-                Intent it = graphLineUser.getIntent(getApplicationContext(),arrayList);
-                startActivity(it);
+                new RetrieveUserGraph().execute();
+
             }
         });
 
@@ -96,7 +104,7 @@ public class userHomeScreen extends ActionBarActivity {
             //String phoneNumber = new login().getNumber();
             URL url = null;
             try{
-                url = new URL (new uri().getIp() +"UsageDetails/GetUsageDetails/?phoneNo=9999999999&duration=Weekly");
+                url = new URL (new uri().getIp() +"UsageDetails/GetUsageDetails/?phoneNo="+phone+"&duration=Weekly");
                 // url = new  URL("http://www.google.com");
             }catch (MalformedURLException e){
                 e.printStackTrace();
@@ -143,6 +151,14 @@ public class userHomeScreen extends ActionBarActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            GraphLine graphLineUser = new GraphLine();
+            Intent it = graphLineUser.getIntent(getApplicationContext(),arrayList);
+            startActivity(it);
         }
     }
 

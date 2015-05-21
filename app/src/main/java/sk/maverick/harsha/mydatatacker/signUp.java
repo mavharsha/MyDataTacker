@@ -56,9 +56,9 @@ public class signUp extends ActionBarActivity {
         register = (Button) findViewById(R.id.register_button_signup);
 
         TelephonyManager  telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        String temp = telephonyManager.getLine1Number();
+        final String temp = telephonyManager.getLine1Number();
 
-        phonenumber.setText(temp.substring(2));
+        phonenumber.setText(temp.substring(1));
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +141,13 @@ public class signUp extends ActionBarActivity {
                         regexValidator.validateNumber(family_limit_st)&
                         regexValidator.validateNumber(owner_limit_st)){
 
-                    new AsyncSignUp().execute();
+                  if(phonenumber_st.equalsIgnoreCase(temp.substring(1))){
+                      new AsyncSignUp().execute();
+                  }else
+                  {
+                      Toast.makeText(getApplicationContext(), "Cannot Register", Toast.LENGTH_SHORT).show();
+                  }
+
                 }
             }
         });
@@ -230,7 +236,6 @@ public class signUp extends ActionBarActivity {
                 data.put("Password", password_st);
                 data.put("StartDate", datacyle_st);
                 data.put("DataLimit",owner_limit_st);
-
                 OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
                 output_writer.write(data.toString());
                 output_writer.flush();

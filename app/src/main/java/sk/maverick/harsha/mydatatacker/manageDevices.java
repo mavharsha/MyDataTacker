@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -39,12 +42,14 @@ public class manageDevices extends ListActivity {
 
     ListView listView;
     final String TAG = "harsha.mydatatacker.manageDevices";
-    String line;
+    String line="";
+    String phonenum, deletephone;
     protected ArrayList<String> names = new ArrayList<String>();
     public ArrayList<HashMap<String, String>> arrayList = new ArrayList<HashMap<String,String>>();;
     ArrayAdapter itemsAdapter;
     TextView remaining;
     int temp;
+    TelephonyManager telephonyManager;
 
 
     @Override
@@ -53,7 +58,8 @@ public class manageDevices extends ListActivity {
         setContentView(R.layout.manage_devices);
 
         Button add = (Button) findViewById(R.id.managedevice_adddevice_btn);
-
+        telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        phonenum = telephonyManager.getLine1Number().substring(1);
 
         listView = getListView();
 
@@ -97,7 +103,13 @@ public class manageDevices extends ListActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Log.v("Deleting device", "Delete device");
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+                        map= arrayList.get(position);
+
+                        deletephone = map.get("PhoneNo");
+                        new deleteAsync().execute();
+                        Log.v("Deleting device", ""+ deletephone);
                     }
                 });
 
@@ -161,11 +173,8 @@ public class manageDevices extends ListActivity {
             URL url = null;
             try{
 
-                /* Since it is a GET request,
-                *  send user entered number(username), password (pass) and the current device phone number
-                * (current_device_number) as parameters in the URL
-                * */
-                url = new URL (new uri().getIp() +"User/GetAllFamilyUsers/?phoneNo=9167194155");
+
+                url = new URL (new uri().getIp() +"User/GetAllFamilyUsers/?phoneNo="+phonenum+"");
                 // url = new  URL("http://www.google.com");
             }catch (MalformedURLException e){
                 e.printStackTrace();
@@ -180,6 +189,8 @@ public class manageDevices extends ListActivity {
                 /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
                 http.connect();
 
+                Log.v("URL", "" + url);
+
                 /* Response */
                 if(http.getResponseCode() == 200){
 
@@ -190,9 +201,7 @@ public class manageDevices extends ListActivity {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
                     while ((line = reader.readLine()) != null) {
-                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                        // But it does make debugging a *lot* easier if you print out the completed
-                        // buffer for debugging.
+
                         buffer.append(line + "\n");
                     }
                     line = buffer.toString();
@@ -233,6 +242,63 @@ public class manageDevices extends ListActivity {
             Log.v("Post Execute", "In post execute");
             itemsAdapter = new ArrayAdapter<String>(manageDevices.this, android.R.layout.simple_list_item_1, names);
             listView.setAdapter(itemsAdapter);
+        }
+    }
+
+
+    private class deleteAsync extends AsyncTask<URL, Integer, Long>{
+
+        @Override
+        protected Long doInBackground(URL... params) {
+
+            URL url = null;
+            try{
+
+                /* Since it is a GET request,
+                *  send user entered number(username), password (pass) and the current device phone number
+                * (current_device_number) as parameters in the URL
+                * */
+                url = new URL (new uri().getIp() +"User/DeleteUser/?phoneNo="+deletephone);
+
+            }catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+
+            HttpURLConnection http = null;
+            try {
+
+                http = (HttpURLConnection) url.openConnection();
+                http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+                Log.v("Login Async", " inside httpurlconnection ");
+                http.setRequestMethod("DELETE");
+                /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
+                http.connect();
+
+                /* Response */
+                if(http.getResponseCode() == 200){
+
+                    line = "success";
+
+                    Log.v("Login Async", "http connect works " + http.getResponseMessage());
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+
+            if(line.equalsIgnoreCase("success")){
+                Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+            }
+
+
+            new manageAsync().execute();
+
         }
     }
 

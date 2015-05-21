@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,9 @@ public class billingCycle extends ActionBarActivity {
     DatePicker datepicker;
     Button confirm;
     int date;
+    String phone;
+    String line ="";
+    TelephonyManager telephonyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,13 @@ public class billingCycle extends ActionBarActivity {
         datepicker = (DatePicker) findViewById(R.id.datePicker);
         confirm = (Button) findViewById(R.id.billingcycle_button);
 
+        telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+         phone = telephonyManager.getLine1Number();
 
+        if(phone.length()>10)
+        {
+            phone = telephonyManager.getLine1Number().substring(1);
+        }
 
         /* OnClick listener for confirm button*/
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +120,7 @@ public class billingCycle extends ActionBarActivity {
 
             URL url = null;
             try{
-                url = new URL ("http://www.google.com");
+                url = new URL (new uri().getIp()+"User/UpdateStartDate/");
             }catch (MalformedURLException e){
                 e.printStackTrace();
             }
@@ -123,7 +133,7 @@ public class billingCycle extends ActionBarActivity {
 
                 /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
 
-                http.setDoOutput(true);
+                http.setRequestMethod("PUT");
                 http.connect();
 
                 int  dayOfMonth = datepicker.getDayOfMonth();
@@ -138,14 +148,11 @@ public class billingCycle extends ActionBarActivity {
 
 
                     /* Response */
-                if(http == null)
-                {
-                    Log.v("Async", "http is null");
-
-                }else
+                if(http.getResponseCode()==200)
                 {
                     // InputStream in = new BufferedInputStream(http.getInputStream());
                     Log.v("Async", "http connect works " + http.getResponseCode());
+                    line = "success";
                 }
 
             }catch (Exception e){
@@ -159,8 +166,22 @@ public class billingCycle extends ActionBarActivity {
         }
         @Override
         protected void onPostExecute(Long aLong) {
-            Log.v("Post execute"," second!");
-            openDialog();
+
+
+
+            if(line.equalsIgnoreCase("success")){
+
+                Toast.makeText(getApplicationContext(), "Billing Cycle Set!", Toast.LENGTH_SHORT).show();
+
+            }else {
+
+                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+
+
         }
     }
 }

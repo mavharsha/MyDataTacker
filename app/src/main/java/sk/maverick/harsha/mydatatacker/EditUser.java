@@ -11,21 +11,29 @@ package sk.maverick.harsha.mydatatacker;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Button;
 import android.widget.TextView;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.Toast;
+import org.json.JSONObject;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class EditUser extends ActionBarActivity {
 
     public static final String PREFS_NAME = "myprefs";
     int quota, family;
+    String firstname, phonenum,temp, line;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,73 +42,42 @@ public class EditUser extends ActionBarActivity {
 
         EditText name = (EditText) findViewById(R.id.firstname_edituser_quota);
         EditText phone = (EditText) findViewById(R.id.phonenumber_useredit_edtxt);
-        SeekBar seekBar = (SeekBar) findViewById(R.id.setquota_edituser_seek);
+        final EditText quota = (EditText) findViewById(R.id.quota_edituser_seek);
+
         Button update = (Button) findViewById(R.id.update_edituser_btn);
         final TextView remaining = (TextView) findViewById(R.id.remaining_edituser_text);
 
-      /*  Intent it = getIntent();
+        Intent it = getIntent();
 
-        String firstname= it.getStringExtra("Name");
-        String phonenum = it.getStringExtra("Phone");
-        String temp = it.getStringExtra("DataUsed");
+        firstname= it.getStringExtra("Name");
+        phonenum = it.getStringExtra("Phone");
+        temp = it.getStringExtra("DataLimit");
 
-        quota = Integer.parseInt(temp);
 
         name.setText(firstname);
         phone.setText(phonenum);
-        seekBar.setProgress(quota);
+        quota.setText(temp);
 
         SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        family = sharedpreferences.getInt("family_limit", 10);
+        family = sharedpreferences.getInt("family_limit", 1);
         remaining.setText("" + family);
 
-        seekBar.setMax(quota+family);
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        update.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onClick(View v) {
 
-                if(progress < quota){
-
-                    add(progress);
-                    remaining.setText(""+family);
+                String temp = quota.getText().toString();
+                if(Integer.parseInt(temp)>family)
+                {
+                    Toast.makeText(getApplicationContext(), "Qutoa excceeded", Toast.LENGTH_SHORT).show();
 
                 }else{
-                    subtract(progress);
-                    remaining.setText("" + family);
 
+                    new editUserAsync().execute();
                 }
-
-            }
-
-
-
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-
             }
         });
-
-        */
-
-    }
-
-    private void subtract(int progress) {
-
-        family = family - (progress -quota);
-
-    }
-
-    private void add(int progress) {
-
-        family = family + (quota - progress);
 
     }
 
@@ -125,4 +102,74 @@ public class EditUser extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private class editUserAsync extends AsyncTask<URL, Integer, Long> {
+
+        @Override
+        protected Long doInBackground(URL... params) {
+
+
+            URL url = null;
+            try{
+
+                url = new URL (new uri().getIp()+"/User/UpdateDataLimit/");
+            }catch (MalformedURLException e){
+                e.printStackTrace();
+            }
+
+            HttpURLConnection http = null;
+            try {
+                http = (HttpURLConnection) url.openConnection();
+                http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+
+                /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
+                http.setRequestMethod("PUT");
+                http.connect();
+
+                /* JSON Object("Day", int) */
+                JSONObject data = new JSONObject();
+
+                data.put("FirstName", firstname);
+                data.put("PhoneNo", phonenum);
+                data.put("DataLimit",temp);
+
+                OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
+                output_writer.write(data.toString());
+                output_writer.flush();
+
+                Log.v("URL", "" + url);
+
+                Log.v("SignUP", "Responsecode" + http.getResponseCode());
+                /* Response */
+                if(http.getResponseCode()== 200){
+                    // Read resopnse
+                    // InputStream in = new BufferedInputStream(http.getInputStream());
+                    Log.v("Sign Up! Async", "http connect works " + http.getResponseMessage());
+                    line = http.getResponseMessage();
+
+                }
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }finally {
+                http.disconnect();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+
+            /* If the respone is success, the create a shared preference to store family limit */
+            Toast.makeText(getApplicationContext(), "Post Execute", Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+
+
+
 }

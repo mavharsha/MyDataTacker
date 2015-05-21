@@ -43,17 +43,17 @@ public class login extends ActionBarActivity {
         signup = (TextView) findViewById(R.id.signup_tv);
 
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        current_device_number = getNumber();
-        current_device_number = "123131323";
+        current_device_number = telephonyManager.getLine1Number();
+        current_device_number = current_device_number.substring(1);
+
+        user.setText(""+current_device_number);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-             //   username = user.getText().toString();
-               username = "9167909169";
-               // pass = password.getText().toString();
-                pass = "12345";
+               username = user.getText().toString();
+                pass = password.getText().toString();
 
                 if (!regexValidator.validatePhoneNumber(username)) {
                     Toast.makeText(getApplicationContext(), "Please check the Phone number entered", Toast.LENGTH_SHORT).show();
@@ -117,6 +117,7 @@ public class login extends ActionBarActivity {
 
             URL url = null;
             try{
+                Log.v("Login Async", "name and pass "+ username + pass + current_device_number);
 
                 /* Since it is a GET request,
                 *  send user entered number(username), password (pass) and the current device phone number
@@ -138,6 +139,9 @@ public class login extends ActionBarActivity {
 
                 /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
                 http.connect();
+
+                Log.v("Login Async", "name and pass "+ username + pass + current_device_number + http.getResponseCode());
+
 
                 /* Response */
                 if(http.getResponseCode() == 200){
@@ -168,6 +172,9 @@ public class login extends ActionBarActivity {
             {
                 startActivity(new Intent(sk.maverick.harsha.mydatatacker.login.this, userHomeScreen.class));
 
+            }else
+            {
+                Toast.makeText(getApplicationContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
             }
         }
     }

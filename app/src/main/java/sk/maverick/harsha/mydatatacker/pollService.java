@@ -69,9 +69,6 @@ public class pollService extends Service {
                             http.setDoOutput(true);
                             http.connect();
 
-                    /* While using HTTP url connection use setOutput(true) for "POST" verb,
-                    for other verbs use setRequestMethod(Verb)*/
-
                     /* JSON Object("Day", int) */
                         JSONObject data = new JSONObject();
 
@@ -113,7 +110,7 @@ public class pollService extends Service {
                 checkForNotification();
 
             }
-        }, 0, 1000 * 60 * 1 );
+        }, 1000, 1000 * 60 * 1 );
 
         return START_STICKY;
 

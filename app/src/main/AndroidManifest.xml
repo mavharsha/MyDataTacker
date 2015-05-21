@@ -16,6 +16,7 @@
             android:name=".login"
             android:label="@string/app_name" >
 
+
         </activity>
 
         <!-- Activities -->
@@ -77,6 +78,11 @@
         <activity
             android:name=".userHomeScreen"
             android:label="@string/title_activity_user_home_screen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".EditUser"
@@ -86,10 +92,7 @@
         <activity
             android:name=".GraphOwner"
             android:label="@string/title_activity_graph_owner" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
 
         </activity>
         <activity

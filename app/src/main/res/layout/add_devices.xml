@@ -71,12 +71,11 @@
         android:gravity="center"
         android:weightSum="1">
 
-        <SeekBar
-            android:layout_width="260dp"
+        <EditText
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:text="Register User!"
-            android:id="@+id/setquota_adddevice_seek"
-            android:background="@drawable/round_button_try"
+            android:hint="Quota in MB"
+            android:id="@+id/quota_adddevice_et"
             android:layout_marginTop="20dp"
             android:padding="10dp"
             android:paddingBottom="20dp"

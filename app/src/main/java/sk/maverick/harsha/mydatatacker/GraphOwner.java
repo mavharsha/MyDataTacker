@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +35,9 @@ import java.util.ArrayList;
 public class GraphOwner extends ActionBarActivity {
 
     ArrayList<String> name = new ArrayList<String>();
-    ArrayList<Integer> quotaUsed = new ArrayList<Integer>();
+    ArrayList<Double> quotaUsed = new ArrayList<Double>();
+    TelephonyManager telephonyManager;
+    String phonenumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ public class GraphOwner extends ActionBarActivity {
 
         Button piegraph = (Button) findViewById(R.id.piegraph_ownergraph_btn);
         Button linegraph = (Button) findViewById(R.id.linegraph_ownergraph_btn);
+        telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        phonenumber = telephonyManager.getLine1Number().substring(1);
 
         piegraph.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,8 +97,8 @@ public class GraphOwner extends ActionBarActivity {
             URL url = null;
             try {
 
-                url = new URL(new uri().getIp() +"UsageDetails/GetUsageDetails/?phoneNo=9999999999&duration=");
-                // url = new  URL("http://www.google.com");
+                url = new URL(new uri().getIp() +"UsageDetails/GetFamilyUsersDetails/?phoneNo="+phonenumber+"&duration=");
+                // url = new  URL("http://www.google.com"); http://192.168.1.71:7649/WebApi/api/UsageDetails//?phoneNo=9167194155&duration=Weekly
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -107,6 +112,7 @@ public class GraphOwner extends ActionBarActivity {
                 /* While using HTTP url connection use setOutput(true) for "POST" verb, for other verbs use setRequestMethod(Verb)*/
                 http.connect();
 
+                Log.v("URL",""+url);
                 /* Response */
                 if (http.getResponseCode() == 200) {
 
@@ -134,7 +140,7 @@ public class GraphOwner extends ActionBarActivity {
                         Log.v("graph value", "" + Double.parseDouble(jsonObject.getString("DataUsed")));
 
                             name.add(jsonObject.getString("PhoneNo"));
-                            quotaUsed.add(Integer.parseInt(jsonObject.getString("DataUsed")));
+                            quotaUsed.add(Double.parseDouble(jsonObject.getString("DataUsed")));
 
                     }
 

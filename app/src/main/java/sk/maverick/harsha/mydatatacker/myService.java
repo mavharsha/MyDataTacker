@@ -20,8 +20,9 @@ import java.util.TimerTask;
  */
 public class myService extends Service {
 
-    long dataused, olddataused, temp;
+    long dataused, olddataused, temp=0;
     final String TAG = ".mydatatacker.myService";
+    String phone;
     Handler handler = new Handler();
     Runnable r;
     int i=0;
@@ -32,15 +33,17 @@ public class myService extends Service {
         return null;
     }
 
-    @Override
-    public void onCreate() {
-        olddataused = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
-        telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(TELEPHONY_SERVICE);
-        Log.v(TAG,"Service onCreate");
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        olddataused = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
+        telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(TELEPHONY_SERVICE);
+        Log.v(TAG,"Service onCreate");
+        //phone= telephonyManager.getLine1Number().substring(1);
+        phone = "9165143725";
+
+
 
         Log.v(TAG,"Service onStartCommand");
 
@@ -49,58 +52,63 @@ public class myService extends Service {
 
                 dataused = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
                 temp = dataused - olddataused;
-
                 temp = temp/(1048576);
 
-                if(temp != 0) {
+                Log.v("Service","Inside loop , Temp value is "+temp);
 
-                    URL url = null;
-                    try {
-                        url = new URL(new uri().getIp() + "UsageDetails/Post/");
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                        Log.v(TAG, "Malformed URL");
-                    }
+                if(temp > 0) {
 
-                    HttpURLConnection http = null;
-                    try {
-                        http = (HttpURLConnection) url.openConnection();
-                        http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                Log.v("Service","greater than 0");
 
-                    /*  While using HTTP url connection use setOutput(true)
-                        for "POST" verb,
-                        for other verbs use setRequestMethod(Verb)*/
-                        http.setDoOutput(true);
-                        http.connect();
+                URL url = null;
+                try {
+                    url = new URL(new uri().getIp() + "UsageDetails/InsertDetails/");
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    Log.v(TAG, "Malformed URL");
+                }
 
-                    /* JSON Object("Key", Value) */
-                        JSONObject data = new JSONObject();
+                HttpURLConnection http = null;
+                try {
+                    http = (HttpURLConnection) url.openConnection();
+                    http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-                        data.put("PhoneNumber",telephonyManager.getLine1Number());
-                        data.put("DataUsed", temp);
+                    http.setDoOutput(true);
+                    http.connect();
 
-                        OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
-                        output_writer.write(data.toString());
-                        output_writer.flush();
+                    JSONObject data = new JSONObject();
+                    data.put("PhoneNo", phone);
+                    data.put("DataUsed", temp);
+                    Log.v("MyService", "" + phone + " " + temp);
 
+
+                    Log.v("Json ", "" + data.toString());
+
+                    OutputStreamWriter output_writer = new OutputStreamWriter(http.getOutputStream());
+                    output_writer.write(data.toString());
+                    Log.v("URL",""+url);
+                    output_writer.flush();
+
+                    Log.v(TAG, http.getResponseMessage());
 
                     /* Response */
-                        if(http.getResponseCode() == 200)
-                        {
-                            // InputStream in = new BufferedInputStream(http.getInputStream());
-                            Log.v(TAG, "http connect works" + http.getResponseMessage());
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-
-                    /* Closing the HTTP URL CONNECTION */
-                        http.disconnect();
+                    if(http.getResponseCode() == 200)
+                    {
+                        Log.v(TAG, "http connect works" + temp + " added");
                     }
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+
+                    /* Closing the HTTP URL CONNECTION */
+                    http.disconnect();
                 }
+
+                }
+
                 olddataused = dataused;
+
             }
         };
 
@@ -108,10 +116,10 @@ public class myService extends Service {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                // Print your Hello here...
                 r.run();
             }
-        }, 0, 15000);
+        }, 1000,60000);
+
         return START_STICKY;
 
     }
@@ -125,4 +133,9 @@ public class myService extends Service {
         handler.removeCallbacks(r);
         super.onDestroy();
     }
+
+
+
+
+
 }

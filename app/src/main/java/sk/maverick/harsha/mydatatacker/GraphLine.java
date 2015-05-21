@@ -27,7 +27,6 @@ public class GraphLine {
     TimeSeries series = new TimeSeries("User");
     XYMultipleSeriesDataset dataset;
 
-
     public Intent getIntent(Context context, ArrayList arrayList){
 
 
@@ -46,7 +45,7 @@ public class GraphLine {
 
         XYSeriesRenderer renderer = new XYSeriesRenderer();
         renderer.setColor(Color.GREEN);
-        renderer.setLineWidth(5);
+        renderer.setLineWidth(8);
         renderer.setPointStrokeWidth(10);
         renderer.setDisplayChartValues(true);
 
