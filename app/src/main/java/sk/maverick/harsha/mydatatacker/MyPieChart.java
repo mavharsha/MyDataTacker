@@ -1,10 +1,13 @@
-package sk.maverick.harsha.mydatatacker;/*
+
+/*
  * Copyright (c)
  *
  *  Sree  Harsha Mamilla
  *  Pasyanthi
  *  github/mavharsha
  */
+
+package sk.maverick.harsha.mydatatacker;
 
 import android.content.Context;
 import android.content.Intent;
