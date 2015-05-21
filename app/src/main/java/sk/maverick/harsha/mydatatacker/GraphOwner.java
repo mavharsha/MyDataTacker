@@ -46,7 +46,10 @@ public class GraphOwner extends ActionBarActivity {
         Button piegraph = (Button) findViewById(R.id.piegraph_ownergraph_btn);
         Button linegraph = (Button) findViewById(R.id.linegraph_ownergraph_btn);
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        phonenumber = telephonyManager.getLine1Number().substring(1);
+        phonenumber = telephonyManager.getLine1Number();
+
+        phonenumber = phonenumber.substring(phonenumber.length()-10);
+
 
         piegraph.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +101,6 @@ public class GraphOwner extends ActionBarActivity {
             try {
 
                 url = new URL(new uri().getIp() +"UsageDetails/GetFamilyUsersDetails/?phoneNo="+phonenumber+"&duration=");
-                // url = new  URL("http://www.google.com"); http://192.168.1.71:7649/WebApi/api/UsageDetails//?phoneNo=9167194155&duration=Weekly
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -158,6 +160,7 @@ public class GraphOwner extends ActionBarActivity {
             MyPieChart graphLineUser = new MyPieChart();
             Intent it = graphLineUser.getIntent(GraphOwner.this, name, quotaUsed);
             startActivity(it);
+            quotaUsed.clear();
         }
     }
 

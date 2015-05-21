@@ -47,7 +47,10 @@ public class GraphDeviceList extends ListActivity {
         setContentView(R.layout.activity_graph_device_list);
 
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        phone =  telephonyManager.getLine1Number().substring(1);
+        phone =  telephonyManager.getLine1Number();
+
+        phone = phone.substring(phone.length()-10);
+
 
         listView = getListView();
         new manageAsync().execute();

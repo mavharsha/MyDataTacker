@@ -159,6 +159,7 @@ public class userHomeScreen extends ActionBarActivity {
             GraphLine graphLineUser = new GraphLine();
             Intent it = graphLineUser.getIntent(getApplicationContext(),arrayList);
             startActivity(it);
+            arrayList.clear();
         }
     }
 

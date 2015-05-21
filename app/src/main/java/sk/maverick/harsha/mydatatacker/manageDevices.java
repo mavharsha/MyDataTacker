@@ -59,7 +59,10 @@ public class manageDevices extends ListActivity {
 
         Button add = (Button) findViewById(R.id.managedevice_adddevice_btn);
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        phonenum = telephonyManager.getLine1Number().substring(1);
+        phonenum = telephonyManager.getLine1Number();
+
+        phonenum = phonenum.substring(phonenum.length() - 10);
+
 
         listView = getListView();
 
@@ -133,7 +136,7 @@ public class manageDevices extends ListActivity {
 
         it.putExtra("Name",map.get("FirstName"));
         it.putExtra("Phone", map.get("PhoneNo"));
-        it.putExtra("DataUsed", map.get("DataLimit"));
+        it.putExtra("DataLimit", map.get("DataLimit"));
 
         Log.v("EditQuota", "" + map.get("FirstName") + " " + map.get("PhoneNo") + "  " + map.get("DataLimit"));
 
@@ -295,8 +298,7 @@ public class manageDevices extends ListActivity {
             if(line.equalsIgnoreCase("success")){
                 Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
             }
-
-
+            names.clear();
             new manageAsync().execute();
 
         }

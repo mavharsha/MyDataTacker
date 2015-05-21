@@ -36,7 +36,6 @@ public class MyPieChart {
         }
 
         int[] colors = {Color.BLUE,
-                        Color.CYAN,
                         Color.YELLOW,
                         Color.CYAN,
                         Color.DKGRAY,
@@ -49,8 +48,8 @@ public class MyPieChart {
         {
             SimpleSeriesRenderer r = new SimpleSeriesRenderer();
             r.setColor(colors[i]);
-            Log.v("Simple Renderer", "" + r.getColor());
             renderer.addSeriesRenderer(r);
+            Log.v("Simple Renderer", "" + r.getColor());
         }
 
         Intent it = ChartFactory.getPieChartIntent(context, series, renderer, "Pie");

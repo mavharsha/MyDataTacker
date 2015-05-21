@@ -40,8 +40,9 @@ public class myService extends Service {
         olddataused = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
         telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(TELEPHONY_SERVICE);
         Log.v(TAG,"Service onCreate");
-        //phone= telephonyManager.getLine1Number().substring(1);
-        phone = "9165143725";
+        phone= telephonyManager.getLine1Number();
+        phone = phone.substring(phone.length()-10);
+
 
 
 

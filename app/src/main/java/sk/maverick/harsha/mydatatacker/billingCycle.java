@@ -29,6 +29,7 @@ public class billingCycle extends ActionBarActivity {
     int date;
     String phone;
     String line ="";
+    String dayOfMonth;
     TelephonyManager telephonyManager;
 
     @Override
@@ -43,10 +44,7 @@ public class billingCycle extends ActionBarActivity {
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
          phone = telephonyManager.getLine1Number();
 
-        if(phone.length()>10)
-        {
-            phone = telephonyManager.getLine1Number().substring(1);
-        }
+        phone = phone.substring(phone.length()-10);
 
         /* OnClick listener for confirm button*/
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -136,14 +134,20 @@ public class billingCycle extends ActionBarActivity {
                 http.setRequestMethod("PUT");
                 http.connect();
 
-                int  dayOfMonth = datepicker.getDayOfMonth();
+                int month = datepicker.getMonth();
 
+
+               //String dayOfMonth;
+                dayOfMonth = Integer.toString(month) + "/" +Integer.toString(datepicker.getMonth()) + "/" +Integer.toString(datepicker.getYear());
+
+                Log.v("DayofMonth",dayOfMonth);
                 /* JSON Object("Day", int) */
-                JSONObject date = new JSONObject();
-                date.put("Day", dayOfMonth);
+                JSONObject data = new JSONObject();
+                data.put("PhoneNo",phone);
+                data.put("StartDate", dayOfMonth);
 
                 OutputStreamWriter  output_writer = new OutputStreamWriter(http.getOutputStream());
-                output_writer.write(date.toString());
+                output_writer.write(data.toString());
                 output_writer.flush();
 
 

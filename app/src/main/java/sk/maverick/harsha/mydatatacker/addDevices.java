@@ -76,10 +76,7 @@ public class addDevices extends ActionBarActivity {
                 ownerphone = telephonyManager.getLine1Number();
 
 
-                if(ownerphone.length()>10)
-                {
-                    ownerphone = telephonyManager.getLine1Number().substring(1);
-                }
+                ownerphone = ownerphone.substring(ownerphone.length()-10);
 
                 if (Integer.parseInt(limit) > temporary) {
                     Toast.makeText(getApplicationContext(), "Limit Exceeded", Toast.LENGTH_SHORT).show();
@@ -180,6 +177,13 @@ public class addDevices extends ActionBarActivity {
             if(line.equalsIgnoreCase("success")){
 
                 Toast.makeText(getApplicationContext(), "Added to family plan", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                int t = 100 -  Integer.valueOf(limit);
+                editor.putInt("family_limit",t );
+                editor.apply();
+
 
             }else
             {
@@ -189,26 +193,5 @@ public class addDevices extends ActionBarActivity {
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

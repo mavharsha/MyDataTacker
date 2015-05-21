@@ -35,7 +35,7 @@ public class signUp extends ActionBarActivity {
 
     EditText firstname, lastname, phonenumber, email, password, owner_limit,family_limit ,datacyle;
     String firstname_st, lastname_st, phonenumber_st, email_st, password_st, owner_limit_st, family_limit_st,datacyle_st;
-    String line = "";
+    String line = "", phone = "";
     Button register;
     public static final String PREFS_NAME = "myprefs";
 
@@ -56,9 +56,12 @@ public class signUp extends ActionBarActivity {
         register = (Button) findViewById(R.id.register_button_signup);
 
         TelephonyManager  telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        final String temp = telephonyManager.getLine1Number();
+          phone = telephonyManager.getLine1Number();
 
-        phonenumber.setText(temp.substring(1));
+
+        phone = phone.substring(phone.length()-10);
+
+        phonenumber.setText(phone);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +144,7 @@ public class signUp extends ActionBarActivity {
                         regexValidator.validateNumber(family_limit_st)&
                         regexValidator.validateNumber(owner_limit_st)){
 
-                  if(phonenumber_st.equalsIgnoreCase(temp.substring(1))){
+                  if(phonenumber_st.equalsIgnoreCase(phone)){
                       new AsyncSignUp().execute();
                   }else
                   {

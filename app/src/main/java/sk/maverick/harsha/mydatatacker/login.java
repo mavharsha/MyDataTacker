@@ -44,7 +44,8 @@ public class login extends ActionBarActivity {
 
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         current_device_number = telephonyManager.getLine1Number();
-        current_device_number = current_device_number.substring(1);
+        current_device_number = current_device_number.substring(current_device_number.length()-10);
+
 
         user.setText(""+current_device_number);
 
@@ -177,16 +178,6 @@ public class login extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Wrong credentials", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-
-    public String getNumber(){
-
-        TelephonyManager telephonyManager;
-        telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-
-        return telephonyManager.getLine1Number();
-
     }
 
 }
