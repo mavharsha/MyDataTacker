@@ -176,7 +176,7 @@ public class GraphDeviceList extends ListActivity {
             URL url = null;
             try {
 
-                url = new URL("http://192.168.1.71:7649/WebApi/api/UsageDetails/GetUsageDetails/?phoneNo="+phone+"&duration=Weekly");
+                url = new URL(new uri().getIp()+"UsageDetails/GetUsageDetails/?phoneNo="+phone+"&duration=Weekly");
                 // url = new  URL("http://www.google.com");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -236,6 +236,7 @@ public class GraphDeviceList extends ListActivity {
             Intent it = graphLineUser.getIntent(GraphDeviceList.this, dataperday);
             dataperday.clear();
             startActivity(it);
+            dataperday.clear();
 
         }
 

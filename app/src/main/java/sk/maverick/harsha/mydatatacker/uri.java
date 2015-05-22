@@ -16,7 +16,7 @@ public class uri {
     final String ip;
 
     public uri() {
-        ip = "http://192.168.1.71:7649/WebApi/api/";
+        ip = "http://10.114.116.19:7649/WebApi/api/";
 
     }
 
