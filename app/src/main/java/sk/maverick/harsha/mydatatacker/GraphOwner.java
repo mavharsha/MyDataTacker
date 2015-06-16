@@ -18,11 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import org.achartengine.chart.PieChart;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -163,15 +161,5 @@ public class GraphOwner extends ActionBarActivity {
             quotaUsed.clear();
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 }
