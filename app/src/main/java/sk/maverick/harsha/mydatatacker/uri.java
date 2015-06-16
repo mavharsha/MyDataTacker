@@ -13,11 +13,10 @@ package sk.maverick.harsha.mydatatacker;
  */
 public class uri {
 
-    final String ip;
+    private final String ip;
 
     public uri() {
         ip = "http://10.114.116.19:7649/WebApi/api/";
-
     }
 
     public String getIp(){
